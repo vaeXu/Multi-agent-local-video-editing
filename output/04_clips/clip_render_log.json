@@ -1,0 +1,121 @@
+[
+  {
+    "shot_id": "S01",
+    "ok": true,
+    "motion": "low",
+    "channel": "generated_video",
+    "source_video": "/Users/xujiahua/WorkBuddy/视频剪辑/shixiang-agent/input/demo/generated_video/S01.mp4",
+    "comicify": {
+      "ok": true,
+      "frames": 158,
+      "fps": 24,
+      "duration_s": 6.58,
+      "top_watermark_crop_ratio": 0.075,
+      "luma_gain": 0.9672,
+      "style": "local_comicify",
+      "stderr": ""
+    },
+    "duration_s": 6,
+    "stderr": "",
+    "cmd": "/Users/xujiahua/.local/lib/python3.13/site-packages/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v9.0 -filter_complex [0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30,tpad=stop_mode=clone:stop_duration=12,trim=duration=6.000,setpts=PTS-STARTPTS,eq=contrast=1.02:saturation=0.97,vignette=PI/6[bg];[bg]drawtext=fontfile=config/font.ttc:textfile=output/04_clips/S01_sub.txt:fontcolor=white:fontsize=62:line_spacing=12:borderw=5:bordercolor=black@0.95:shadowx=0:shadowy=2:x=(w-text_w)/2:y=h-310:enable='between(t,0.35,5.60)'[t1];[t1]drawtext=fontfile=config/font.t"
+  },
+  {
+    "shot_id": "S02",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S03",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S04",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 7,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S05",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 5,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S06",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S07",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S08",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S09",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 7,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S10",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S11",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  },
+  {
+    "shot_id": "S12",
+    "ok": true,
+    "motion": "沿用上次结果",
+    "channel": "unchanged",
+    "source_video": "",
+    "duration_s": 6,
+    "stderr": ""
+  }
+]

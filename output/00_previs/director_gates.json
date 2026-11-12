@@ -1,0 +1,215 @@
+{
+  "summary": {
+    "total": 20,
+    "passed": 20,
+    "warned": 0,
+    "failed": 0,
+    "blocker_failed": 0,
+    "status": "PASS",
+    "score": 100.0
+  },
+  "gates": [
+    {
+      "id": "D01",
+      "name": "五份创作文档齐全",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "齐备 5/5",
+      "expected": "5/5 全部存在",
+      "evidence": "output/00_creator_docs/",
+      "fix_hint": "运行 stage_00_previs 生成缺失文档"
+    },
+    {
+      "id": "D02",
+      "name": "SHOT↔MOTION↔CUT 一一对应",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "SHOT 12 / MOTION 12 / CUT 12 / 分镜 12",
+      "expected": "四者数量与镜号集合完全一致",
+      "evidence": "output/00_creator_docs/{分镜,视频提示词,剪辑单}.md",
+      "fix_hint": "检查是否有镜头漏写视频提示词或剪辑单；ID 必须逐个对应"
+    },
+    {
+      "id": "D03",
+      "name": "分镜/视频提示词/剪辑单时长逐字一致",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "漂移镜 无；剪辑单时长条目 12",
+      "expected": "全部相等，容差 0.005s",
+      "evidence": "output/00_creator_docs/",
+      "fix_hint": "视频提示词只能原样照抄已接受的镜头时长，不得另估"
+    },
+    {
+      "id": "D04",
+      "name": "集长等于可见镜头时长之和",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "镜头合计 73.00s / 目标 73s",
+      "expected": "差值 ≤0.05s",
+      "evidence": "input/demo/storyboard.json",
+      "fix_hint": "调整末镜时长或修正目标集长，禁止用变速凑数"
+    },
+    {
+      "id": "D05",
+      "name": "对白发声窗口预算（4.1 字/秒）",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "超载镜 无；最紧窗口占用 52%",
+      "expected": "台词时长 ≤ 镜长 −0.35s −0.4s",
+      "evidence": "output/00_creator_docs/分镜.md → 声音",
+      "fix_hint": "先删装饰动作 → 并行 → 回上游拆镜/精简台词；禁止加快语速"
+    },
+    {
+      "id": "D06",
+      "name": "字幕与台词逐字对齐且能在剧本中找到原文",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "偏离镜 无",
+      "expected": "subtitle == dialogue.text 且为剧本子串",
+      "evidence": "input/demo/script.md",
+      "fix_hint": "字幕只能逐字照抄剧本，不得改写或增删标点"
+    },
+    {
+      "id": "D07",
+      "name": "连续性锁锁面原样传播到生效镜头",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "缺失 无；锁 4 把",
+      "expected": "生效范围内每条视频提示词必须含锁面",
+      "evidence": "output/00_creator_docs/视觉设定.md → 连续性锁",
+      "fix_hint": "把锁面短语原样写进该镜视频提示词；锁面不得含动作、剧情或否定词"
+    },
+    {
+      "id": "D08",
+      "name": "REF 槽位顺序/用途/控制域/文件真实性",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "问题 0；12 张起始帧",
+      "expected": "顺序 1..N 连续、用途在闭集、控制域互斥、真实文件存在",
+      "evidence": "output/00_creator_docs/分镜.md → 输入参考图",
+      "fix_hint": "PLAN-* 只是挂图计划，投产前必须换成项目内真实 REF-* 文件"
+    },
+    {
+      "id": "D09",
+      "name": "相邻镜景别/角度/人物关系至少改变一项",
+      "level": "craft",
+      "status": "pass",
+      "actual": "重复相邻 无",
+      "expected": "不允许同景别同机位同关系连续两镜",
+      "evidence": "input/demo/storyboard.json",
+      "fix_hint": "并镜或改景别/机位；同景别重复须贡献反应或细节"
+    },
+    {
+      "id": "D10",
+      "name": "正反打不越轴，越轴须声明过渡",
+      "level": "craft",
+      "status": "pass",
+      "actual": "未声明越轴 无",
+      "expected": "工作侧一致；换侧须写镜内穿轴/中性过渡镜/全景重建",
+      "evidence": "output/00_creator_docs/分镜.md → 场景站位",
+      "fix_hint": "补写越轴过渡方式并声明新工作侧，或把该镜改回 A 侧"
+    },
+    {
+      "id": "D11",
+      "name": "运镜幅度 ≤30% 且速率 0.1–10%/秒",
+      "level": "craft",
+      "status": "pass",
+      "actual": "越界 无",
+      "expected": "单段累计 ≤30%，速率在 0.1–10%/s",
+      "evidence": "output/00_creator_docs/剪辑单.md → 运镜",
+      "fix_hint": "放慢或缩短该段；过高动态是 AI 视频人物变形的首要原因"
+    },
+    {
+      "id": "D12",
+      "name": "每镜单一戏剧目的且不重复",
+      "level": "craft",
+      "status": "pass",
+      "actual": "唯一目的 12/12",
+      "expected": "每镜一个可验收目的，不写「展示人物说话」这类空泛描述",
+      "evidence": "input/demo/director.json → purpose",
+      "fix_hint": "合并目的重复的镜头，或改写为具体戏剧作用"
+    },
+    {
+      "id": "D13",
+      "name": "起点→唯一动作→终点三态完整",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "缺失 无",
+      "expected": "每镜三态齐全且互不重复",
+      "evidence": "input/demo/director.json",
+      "fix_hint": "冻结关键帧只写起点可见内容；终点另写，不写成动作链"
+    },
+    {
+      "id": "D14",
+      "name": "前 3 秒强冲突钩子",
+      "level": "craft",
+      "status": "pass",
+      "actual": "前 3 秒抛出代签指控，把冲突直接摆上桌",
+      "expected": "第一镜直接抛冲突台词或画面",
+      "evidence": "input/demo/director.json S01",
+      "fix_hint": "把最强冲突前置到 0–3 秒，不要铺垫环境"
+    },
+    {
+      "id": "D15",
+      "name": "集尾留悬念引导下一集",
+      "level": "craft",
+      "status": "pass",
+      "actual": "留悬念引导下一集，机位穿轴重建空间 / 这页，只是第一份。",
+      "expected": "末镜目的或台词含追更钩子",
+      "evidence": "input/demo/director.json 末镜",
+      "fix_hint": "把未解信息留到末镜，台词指向后续而非收束剧情"
+    },
+    {
+      "id": "D16",
+      "name": "付费生产前预览 + 指纹明确确认",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "job=JOB-C69345C8 fp=c69345c89071 任务=12；确认=有效",
+      "expected": "prepare → 展示预览 → CONFIRM <job_id> <fingerprint[:12]> → run",
+      "evidence": "output/00_previs/production_jobs.json / CONFIRM",
+      "fix_hint": "任何 prompt/参考/参数/输出变化都会使旧确认失效，须重新预览确认"
+    },
+    {
+      "id": "D17",
+      "name": "画幅帧率一致且宽高为偶数",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "1080×1920 @ 30fps",
+      "expected": "9:16 1080×1920，宽高偶数（yuv420p）",
+      "evidence": "config/project.json / output/00_creator_docs/剪辑单.md",
+      "fix_hint": "奇数边在 4:2:0 编码下会失败，改回偶数尺寸"
+    },
+    {
+      "id": "D18",
+      "name": "对白镜 ≥1.2s、静帧段 ≥0.50s",
+      "level": "craft",
+      "status": "pass",
+      "actual": "过短镜 无；最短 5.00s",
+      "expected": "对白镜 ≥1.20s",
+      "evidence": "input/demo/storyboard.json",
+      "fix_hint": "延长镜头或并入相邻镜"
+    },
+    {
+      "id": "D19",
+      "name": "同框说话人绑定（不说话正脸须闭嘴）",
+      "level": "craft",
+      "status": "pass",
+      "actual": "需人工复核镜 无",
+      "expected": "台词紧跟主动作；同框其他正脸明写闭嘴",
+      "evidence": "output/00_creator_docs/视频提示词.md",
+      "fix_hint": "双人镜在负面约束里写『不让两人同时张嘴』，避免口型落到更显眼的正脸"
+    },
+    {
+      "id": "D20",
+      "name": "剪辑单出点−入点==时长",
+      "level": "blocker",
+      "status": "pass",
+      "actual": "记录 12 段，算术异常 0",
+      "expected": "每段 |出−入−时长| ≤0.005s 且入点非负",
+      "evidence": "output/00_creator_docs/剪辑单.md",
+      "fix_hint": "修正入出点或时长，不得写时间码/帧号"
+    }
+  ],
+  "source": "drama-skills / shuohao-skills 确定性门 + 小云雀预演规则",
+  "note": "所有门均为纯字符串/数值比较，不调用模型、不产生费用；craft 级为创作建议，不作为阻断"
+}

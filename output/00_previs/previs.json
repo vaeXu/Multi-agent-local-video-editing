@@ -1,0 +1,338 @@
+{
+  "episode_id": "EP01",
+  "mode": "xiaoyunque",
+  "timeline": [
+    {
+      "shot_id": "S01",
+      "start_s": 0.0,
+      "end_s": 6.0,
+      "duration_s": 6.0,
+      "purpose": "前 3 秒抛出代签指控，把冲突直接摆上桌",
+      "shot_size": "过肩近景",
+      "camera": "缓推",
+      "camera_move_pct": 6,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "苏晴在画左，视线向右",
+      "start_state": "苏晴右手把 A4 签字页平拍在胡桃木长桌上，食指压住签名，肩线绷直",
+      "action": "指尖压住纸面不动，纸角微微翘起；她抬起视线直逼对面",
+      "end_state": "纸静止、苏晴视线锁定林昭",
+      "continuity_locks": [
+        "LOCK-SU-HAIR",
+        "LOCK-ROOM"
+      ],
+      "reference_slots": [
+        "REF-S01-FIRST",
+        "REF-LIN-SHEET",
+        "REF-SU-SHEET"
+      ],
+      "subtitle": "不是我签的，是你代签的。",
+      "transition_in": "开场"
+    },
+    {
+      "shot_id": "S02",
+      "start_s": 6.0,
+      "end_s": 12.0,
+      "duration_s": 6.0,
+      "purpose": "给被指控者的克制反应，反打建立权力对峙",
+      "shot_size": "特写",
+      "camera": "缓推",
+      "camera_move_pct": 5,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "林昭在画右，视线向左",
+      "start_state": "林昭正面平机位特写，下颌收紧、嘴唇抿成线，镜片一道细高光",
+      "action": "他抬起眼睛直视镜头，喉结极轻地动一下，身体不动",
+      "end_state": "视线稳定落在画外左侧的苏晴身上",
+      "continuity_locks": [
+        "LOCK-LIN-SUIT",
+        "LOCK-LIN-GLASSES",
+        "LOCK-ROOM"
+      ],
+      "reference_slots": [
+        "REF-S02-FIRST",
+        "REF-LIN-SHEET"
+      ],
+      "subtitle": "会议室有监控，调出来。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S03",
+      "start_s": 12.0,
+      "end_s": 18.0,
+      "duration_s": 6.0,
+      "purpose": "插入监控画面，用客观证据打断对峙",
+      "shot_size": "插入大特写",
+      "camera": "固定",
+      "camera_move_pct": 0,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "物件插入镜，无人物视线方向",
+      "start_state": "俯拍 45 度手部大特写，苏晴横握平板，屏幕冷蓝自发光照亮指尖",
+      "action": "拇指在屏幕上向左划过一格时间轴，画面停住",
+      "end_state": "屏幕定格在空会议室的监控画面",
+      "continuity_locks": [
+        "LOCK-SU-HAIR"
+      ],
+      "reference_slots": [
+        "REF-S03-FIRST",
+        "REF-SU-SHEET"
+      ],
+      "subtitle": "昨晚九点，只有你进过。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S04",
+      "start_s": 18.0,
+      "end_s": 25.0,
+      "duration_s": 7.0,
+      "purpose": "林昭用时间差反将一军，第一次翻转",
+      "shot_size": "近景",
+      "camera": "缓推",
+      "camera_move_pct": 6,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "林昭在画右，视线向左下",
+      "start_state": "桌侧 35 度近景，林昭上半身前倾凑近平板，平板冷光从下方补亮下颌",
+      "action": "他伸手把平板角度转向自己，眉心极轻地收拢",
+      "end_state": "平板角度稳定，林昭目光落在屏幕上",
+      "continuity_locks": [
+        "LOCK-LIN-SUIT",
+        "LOCK-LIN-GLASSES"
+      ],
+      "reference_slots": [
+        "REF-S04-FIRST",
+        "REF-LIN-SHEET"
+      ],
+      "subtitle": "九点零七，灯是灭的。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S05",
+      "start_s": 25.0,
+      "end_s": 30.0,
+      "duration_s": 5.0,
+      "purpose": "压痕作为物证登场，把视线从人引向纸",
+      "shot_size": "物件大特写",
+      "camera": "固定微距",
+      "camera_move_pct": 0,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "物件插入镜，手自左向右",
+      "start_state": "垂直俯拍微距，A4 签字页铺满画面，侧逆光扫出浅压痕",
+      "action": "林昭指腹从左向右缓慢抚过纸面，压痕阴影随之移动",
+      "end_state": "指腹停在纸右侧，压痕清晰可见",
+      "continuity_locks": [],
+      "reference_slots": [
+        "REF-S05-FIRST"
+      ],
+      "subtitle": "纸下面，还有一层压痕。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S06",
+      "start_s": 30.0,
+      "end_s": 36.0,
+      "duration_s": 6.0,
+      "purpose": "苏晴第一次动摇，情绪转折",
+      "shot_size": "特写",
+      "camera": "极缓摇",
+      "camera_move_pct": 3,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "苏晴在画左，视线向右下",
+      "start_state": "苏晴正面略侧 15 度特写，落地窗侧光从右打亮半边脸",
+      "action": "眼睫连眨两下，视线从林昭移向桌上的纸",
+      "end_state": "视线停在纸面，嘴唇微张未出声",
+      "continuity_locks": [
+        "LOCK-SU-HAIR",
+        "LOCK-ROOM"
+      ],
+      "reference_slots": [
+        "REF-S06-FIRST",
+        "REF-SU-SHEET"
+      ],
+      "subtitle": "压痕……什么意思？",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S07",
+      "start_s": 36.0,
+      "end_s": 42.0,
+      "duration_s": 6.0,
+      "purpose": "揭示压痕是描摹，物证升级",
+      "shot_size": "中近景",
+      "camera": "固定低机位仰拍",
+      "camera_move_pct": 0,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "林昭在画右，逆光居中",
+      "start_state": "低机位仰拍 10 度中近景，林昭双手捏住 A4 纸两角举向落地窗",
+      "action": "纸张缓慢转过一个角度，逆光透出底层重叠的描摹笔画",
+      "end_state": "纸面稳定，透光层次分明",
+      "continuity_locks": [
+        "LOCK-LIN-SUIT",
+        "LOCK-LIN-GLASSES",
+        "LOCK-ROOM"
+      ],
+      "reference_slots": [
+        "REF-S07-FIRST",
+        "REF-LIN-SHEET"
+      ],
+      "subtitle": "有人照着，描过一遍。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S08",
+      "start_s": 42.0,
+      "end_s": 48.0,
+      "duration_s": 6.0,
+      "purpose": "双人同框收束，把问题抛给对手",
+      "shot_size": "双人中景",
+      "camera": "固定",
+      "camera_move_pct": 0,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "苏晴在画左看右，林昭在画右看左",
+      "start_state": "双人中景正面平机位，两人隔胡桃木长桌一左一右对称入画",
+      "action": "苏晴极轻地侧头，林昭始终不动",
+      "end_state": "两人均静止，逆光勾出两道轮廓",
+      "continuity_locks": [
+        "LOCK-LIN-SUIT",
+        "LOCK-LIN-GLASSES",
+        "LOCK-SU-HAIR",
+        "LOCK-ROOM"
+      ],
+      "reference_slots": [
+        "REF-S08-FIRST",
+        "REF-LIN-SHEET",
+        "REF-SU-SHEET"
+      ],
+      "subtitle": "谁？",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S09",
+      "start_s": 48.0,
+      "end_s": 55.0,
+      "duration_s": 7.0,
+      "purpose": "章号异常，把嫌疑指向第三人",
+      "shot_size": "物件大特写",
+      "camera": "缓推俯拍",
+      "camera_move_pct": 7,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "物件插入镜，手自上而下翻页",
+      "start_state": "俯拍 40 度物件大特写，签字页背面朝上，手机屏幕冷光加顶部射灯",
+      "action": "林昭拇指把签字页翻到背面，一枚圆形钢印章号露出",
+      "end_state": "纸面停稳，章号居中清晰",
+      "continuity_locks": [],
+      "reference_slots": [
+        "REF-S09-FIRST"
+      ],
+      "subtitle": "章号，不在这层楼。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S10",
+      "start_s": 55.0,
+      "end_s": 61.0,
+      "duration_s": 6.0,
+      "purpose": "苏晴意识到自己被利用，第二次翻转",
+      "shot_size": "近景",
+      "camera": "缓推",
+      "camera_move_pct": 5,
+      "motion_intensity": "low",
+      "axis_side": "A",
+      "screen_direction": "苏晴在画左，视线向下",
+      "start_state": "苏晴正面略侧近景，冷白顶光转柔，半边脸被窗光勾亮",
+      "action": "握文件的左手骤然收拢，指节发白，呼吸停一拍",
+      "end_state": "纸被捏出一道折痕，苏晴垂下眼",
+      "continuity_locks": [
+        "LOCK-SU-HAIR",
+        "LOCK-ROOM"
+      ],
+      "reference_slots": [
+        "REF-S10-FIRST",
+        "REF-SU-SHEET"
+      ],
+      "subtitle": "这文件……是塞给我的。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S11",
+      "start_s": 61.0,
+      "end_s": 67.0,
+      "duration_s": 6.0,
+      "purpose": "亮工牌身份反转，本集最高潮",
+      "shot_size": "手部与证件特写",
+      "camera": "急推",
+      "camera_move_pct": 18,
+      "motion_intensity": "medium",
+      "axis_side": "A",
+      "screen_direction": "林昭在画右，手自下而上",
+      "start_state": "手部与证件特写，平机位，林昭从深灰西装内袋抽出一枚工作证",
+      "action": "两指翻转到正面，急推镜头压近，圆形钢印与磨痕入画",
+      "end_state": "工牌正面定格，银色回形针领针在画面上缘入镜",
+      "continuity_locks": [
+        "LOCK-LIN-SUIT"
+      ],
+      "reference_slots": [
+        "REF-S11-FIRST",
+        "REF-LIN-SHEET"
+      ],
+      "subtitle": "我不是来被审的。",
+      "transition_in": "硬切"
+    },
+    {
+      "shot_id": "S12",
+      "start_s": 67.0,
+      "end_s": 73.0,
+      "duration_s": 6.0,
+      "purpose": "留悬念引导下一集，机位穿轴重建空间",
+      "shot_size": "中景转半身",
+      "camera": "缓拉",
+      "camera_move_pct": 8,
+      "motion_intensity": "low",
+      "axis_side": "B",
+      "screen_direction": "林昭在画右背向镜头，走向画面深处",
+      "start_state": "中景转半身，机位在林昭右后侧（声明镜内穿轴过渡，工作侧重建为 B），冷白顶光渐暗",
+      "action": "他把一叠文件轻轻放在长桌上，转身向走廊门走去",
+      "end_state": "门缝透进一道细长暖光横过地面，人物背影停在门边",
+      "continuity_locks": [
+        "LOCK-LIN-SUIT",
+        "LOCK-ROOM"
+      ],
+      "reference_slots": [
+        "REF-S12-FIRST",
+        "REF-LIN-SHEET"
+      ],
+      "subtitle": "这页，只是第一份。",
+      "transition_in": "硬切"
+    }
+  ],
+  "total_duration_s": 73.0,
+  "shot_count": 12,
+  "avg_shot_s": 6.08,
+  "motion_budget": {
+    "fixed_shots": 4,
+    "moving_shots": 8,
+    "max_move_pct": 18,
+    "avg_move_pct": 4.83,
+    "medium_dynamic_shots": 1,
+    "note": "低动态为主、单镜中动态作高潮；这是小云雀降低抽卡率的核心预演约束"
+  },
+  "axis": {
+    "axis": "长桌长边为轴线，苏晴在画左、林昭在画右",
+    "camera_working_side": "A 侧（落地窗一侧）",
+    "note": "全片正反打保持 A 侧工作侧；S07 为低机位仰拍但仍不越轴；S12 机位移至林昭右后侧，声明为『镜内穿轴』过渡并重建工作侧 B"
+  },
+  "checks": {
+    "no_two_identical_adjacent": true,
+    "hook_in_first_3s": true,
+    "cliffhanger_at_end": true,
+    "camera_working_side_changes": [
+      "S11→S12"
+    ]
+  }
+}

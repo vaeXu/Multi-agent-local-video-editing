@@ -1,0 +1,272 @@
+{
+  "summary": {
+    "total": 12,
+    "pass": 12,
+    "warn": 0,
+    "fail": 0,
+    "generated_video_shots": 1,
+    "local_parallax_shots": 11,
+    "retake_list": [],
+    "note": "画面级「像不像同一个人 / 动作是否好看」不由脚本下结论，见人工确认门"
+  },
+  "shots": [
+    {
+      "shot_id": "S01",
+      "channel": "generated_video",
+      "status": "pass",
+      "metrics": {
+        "motion": 8.921,
+        "motion_peak": 11.571,
+        "luma": 61.98,
+        "black_bars": false,
+        "subtitle_pixels": 339,
+        "repeat_corr_with_prev": null,
+        "luma_jump_with_prev": null,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S01_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S02",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 5.493,
+        "motion_peak": 5.687,
+        "luma": 50.48,
+        "black_bars": false,
+        "subtitle_pixels": 298,
+        "repeat_corr_with_prev": 0.6725,
+        "luma_jump_with_prev": 11.5,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S02_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S03",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 1.859,
+        "motion_peak": 2.007,
+        "luma": 50.45,
+        "black_bars": false,
+        "subtitle_pixels": 289,
+        "repeat_corr_with_prev": 0.9045,
+        "luma_jump_with_prev": 0.03,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S03_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S04",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 4.75,
+        "motion_peak": 5.059,
+        "luma": 51.85,
+        "black_bars": false,
+        "subtitle_pixels": 249,
+        "repeat_corr_with_prev": 0.9186,
+        "luma_jump_with_prev": 1.4,
+        "duration_actual_s": 7.0,
+        "duration_expected_s": 7.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S04_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S05",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 1.156,
+        "motion_peak": 1.233,
+        "luma": 62.72,
+        "black_bars": false,
+        "subtitle_pixels": 301,
+        "repeat_corr_with_prev": 0.6587,
+        "luma_jump_with_prev": 10.87,
+        "duration_actual_s": 5.0,
+        "duration_expected_s": 5.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S05_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S06",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 4.445,
+        "motion_peak": 6.016,
+        "luma": 51.57,
+        "black_bars": false,
+        "subtitle_pixels": 206,
+        "repeat_corr_with_prev": 0.8157,
+        "luma_jump_with_prev": 11.15,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S06_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S07",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 2.007,
+        "motion_peak": 2.995,
+        "luma": 61.07,
+        "black_bars": false,
+        "subtitle_pixels": 235,
+        "repeat_corr_with_prev": 0.7946,
+        "luma_jump_with_prev": 9.5,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S07_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S08",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 1.325,
+        "motion_peak": 1.442,
+        "luma": 55.55,
+        "black_bars": false,
+        "subtitle_pixels": 53,
+        "repeat_corr_with_prev": 0.8224,
+        "luma_jump_with_prev": 5.52,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S08_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S09",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 5.531,
+        "motion_peak": 6.052,
+        "luma": 58.69,
+        "black_bars": false,
+        "subtitle_pixels": 258,
+        "repeat_corr_with_prev": 0.8344,
+        "luma_jump_with_prev": 3.14,
+        "duration_actual_s": 7.0,
+        "duration_expected_s": 7.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S09_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S10",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 6.0,
+        "motion_peak": 6.107,
+        "luma": 49.89,
+        "black_bars": false,
+        "subtitle_pixels": 301,
+        "repeat_corr_with_prev": 0.8167,
+        "luma_jump_with_prev": 8.8,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S10_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S11",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 11.128,
+        "motion_peak": 11.174,
+        "luma": 53.35,
+        "black_bars": false,
+        "subtitle_pixels": 269,
+        "repeat_corr_with_prev": 0.8782,
+        "luma_jump_with_prev": 3.46,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S11_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    },
+    {
+      "shot_id": "S12",
+      "channel": "local_parallax",
+      "status": "pass",
+      "metrics": {
+        "motion": 4.597,
+        "motion_peak": 4.929,
+        "luma": 58.54,
+        "black_bars": false,
+        "subtitle_pixels": 223,
+        "repeat_corr_with_prev": 0.7483,
+        "luma_jump_with_prev": 5.19,
+        "duration_actual_s": 6.0,
+        "duration_expected_s": 6.0,
+        "audio_drift_s": 0.0
+      },
+      "issues": [],
+      "retake_hint": "无需返工",
+      "evidence": "output/07_reports/qc_frames/S12_01.png",
+      "how_to_verify": "打开该镜片段与抽帧，逐项复核动作可读性、角色一致性、字幕位置"
+    }
+  ],
+  "thresholds": {
+    "motion_min": 0.35,
+    "strong_motion": 3.0,
+    "repeat_hist_corr": 0.965,
+    "cut_jump_notice": 20.0
+  }
+}

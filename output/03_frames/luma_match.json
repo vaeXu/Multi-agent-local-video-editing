@@ -1,0 +1,84 @@
+{
+  "applied": true,
+  "target_luma": 71.78,
+  "strength": 0.7,
+  "gain_limits": [
+    0.6,
+    1.6
+  ],
+  "shots": [
+    {
+      "shot_id": "S01",
+      "luma_before": 76.09,
+      "gain": 0.96,
+      "luma_after": 72.59
+    },
+    {
+      "shot_id": "S02",
+      "luma_before": 63.53,
+      "gain": 1.0892,
+      "luma_after": 68.73
+    },
+    {
+      "shot_id": "S03",
+      "luma_before": 51.63,
+      "gain": 1.2594,
+      "luma_after": 64.43
+    },
+    {
+      "shot_id": "S04",
+      "luma_before": 65.96,
+      "gain": 1.061,
+      "luma_after": 69.42
+    },
+    {
+      "shot_id": "S05",
+      "luma_before": 142.45,
+      "gain": 0.6189,
+      "luma_after": 87.69
+    },
+    {
+      "shot_id": "S06",
+      "luma_before": 58.06,
+      "gain": 1.16,
+      "luma_after": 66.82
+    },
+    {
+      "shot_id": "S07",
+      "luma_before": 109.48,
+      "gain": 0.7441,
+      "luma_after": 80.95
+    },
+    {
+      "shot_id": "S08",
+      "luma_before": 76.09,
+      "gain": 0.96,
+      "luma_after": 72.59
+    },
+    {
+      "shot_id": "S09",
+      "luma_before": 130.0,
+      "gain": 0.6598,
+      "luma_after": 85.29
+    },
+    {
+      "shot_id": "S10",
+      "luma_before": 56.22,
+      "gain": 1.1866,
+      "luma_after": 66.16
+    },
+    {
+      "shot_id": "S11",
+      "luma_before": 67.47,
+      "gain": 1.0443,
+      "luma_after": 69.94
+    },
+    {
+      "shot_id": "S12",
+      "luma_before": 84.61,
+      "gain": 0.8913,
+      "luma_after": 74.9
+    }
+  ],
+  "source": "drama-skills edit_tool.py SHOT_MATCH_STRENGTH=0.7"
+}

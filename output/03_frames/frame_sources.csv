@@ -1,0 +1,13 @@
+﻿shot_id,frame,source_kind,source_frame,transform,resolution
+S01,output/03_frames/S01.png,真人参考帧转绘,frames/S01.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none,1080x1920
+S02,output/03_frames/S02.png,真人参考帧转绘,frames/S02.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.06/none,1080x1920
+S03,output/03_frames/S03.png,真人参考帧转绘,frames/S03.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none,1080x1920
+S04,output/03_frames/S04.png,同风格底图派生,frames/S02.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.24/none,1080x1920
+S05,output/03_frames/S05.png,真人参考帧转绘,frames/S05.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none,1080x1920
+S06,output/03_frames/S06.png,同风格底图派生,frames/S03.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.2/flip,1080x1920
+S07,output/03_frames/S07.png,真人参考帧转绘,frames/S07.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none,1080x1920
+S08,output/03_frames/S08.png,同风格底图派生,frames/S01.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/flip,1080x1920
+S09,output/03_frames/S09.png,同风格底图派生,frames/S05.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → lower/1.28/none,1080x1920
+S10,output/03_frames/S10.png,同风格底图派生,frames/S03.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.12/none,1080x1920
+S11,output/03_frames/S11.png,真人参考帧转绘,frames/S11.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none,1080x1920
+S12,output/03_frames/S12.png,同风格底图派生,frames/S07.jpg,去水印裁切 → 9:16 → 统一LUT转绘 → lower/1.1/dark,1080x1920

@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-11-12T20:02:08+08:00",
+  "characters": [
+    {
+      "name": "林昭",
+      "role": "男主 · 表面是被指控的项目负责人，实为总部合规稽核",
+      "voice": "Eddy",
+      "voice_available": true,
+      "anchor_count": 4,
+      "anchors": [
+        "左眉尾一道浅色细疤",
+        "左手腕一块方形钢带机械腕表",
+        "银色细框窄边眼镜",
+        "深灰西装立领别一枚银色回形针领针"
+      ],
+      "shots_appeared": 9,
+      "consistency_strategy": "统一风格底图 + 逐镜刚性锚点描述 + 同一 LUT，跨镜不重新抽卡"
+    },
+    {
+      "name": "苏晴",
+      "role": "女主 · 合规专员，当众出示证据指控，后卷入误会",
+      "voice": "Sandy",
+      "voice_available": true,
+      "anchor_count": 4,
+      "anchors": [
+        "右耳单只小珍珠耳钉（左耳无）",
+        "左手食指一枚素圈银戒",
+        "齐肩栗棕发尾向内扣卷",
+        "米白西装左领别一枚圆形金属工牌"
+      ],
+      "shots_appeared": 5,
+      "consistency_strategy": "统一风格底图 + 逐镜刚性锚点描述 + 同一 LUT，跨镜不重新抽卡"
+    }
+  ],
+  "all_voice_available": true,
+  "anchor_min_required": 3
+}

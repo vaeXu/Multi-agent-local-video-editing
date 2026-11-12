@@ -1,0 +1,32 @@
+{
+  "G1": {
+    "status": "approved",
+    "note": "演示模式自动通过，仍需人工复核",
+    "reviewer": "auto-approve（待人工复核）",
+    "at": "2026-11-12T19:13:05+08:00"
+  },
+  "G2": {
+    "status": "approved",
+    "note": "演示模式自动通过，仍需人工复核",
+    "reviewer": "auto-approve（待人工复核）",
+    "at": "2026-11-12T19:13:05+08:00"
+  },
+  "G3": {
+    "status": "approved",
+    "note": "演示模式自动通过，仍需人工复核",
+    "reviewer": "auto-approve（待人工复核）",
+    "at": "2026-11-12T19:13:10+08:00"
+  },
+  "G4": {
+    "status": "approved",
+    "note": "演示模式自动通过，仍需人工复核",
+    "reviewer": "auto-approve（待人工复核）",
+    "at": "2026-11-12T19:13:28+08:00"
+  },
+  "G5": {
+    "status": "approved",
+    "note": "演示模式自动通过，仍需人工复核",
+    "reviewer": "auto-approve（待人工复核）",
+    "at": "2026-11-12T19:15:21+08:00"
+  }
+}

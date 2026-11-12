@@ -1,0 +1,18 @@
+{
+  "job_id": "JOB-C69345C8",
+  "fingerprint": "c69345c89071b2e7f239ec92cef9c76d74d21d1b8a53be8d8907a09642551e01",
+  "token": "CONFIRM JOB-C69345C8 c69345c89071",
+  "jobs": 12,
+  "confirmed_at": "2026-11-12T20:11:44+08:00",
+  "note": "production_jobs.json 的 state 恒为 needs_confirmation（它属于预览文件）；本文件与 CONFIRM 才是放行凭证。任何 prompt/参考/参数/输出变化都会改变指纹，须重新确认。",
+  "executions": [
+    {
+      "at": "2026-11-12T20:13:35+08:00",
+      "scope": "S01 only",
+      "fingerprint": "f35d6c95d7df06a5611250994827919c72b7e3200a3c60b73687c9711214ea21",
+      "estimated_credits": "50–100",
+      "basis": "用户在 AskUserQuestion 中明确选择「先试 1 镜看效果」",
+      "note": "仅此一镜投产；其余镜头不产生费用"
+    }
+  ]
+}

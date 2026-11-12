@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>时象助手 · 查验台</title>
+<style>
+:root{
+  --bg:#eef2f7; --surface:#ffffff; --surface-2:#f8fafc; --surface-3:#f1f5f9;
+  --border:#dce3ec; --border-2:#e9eef4;
+  --text:#1e293b; --muted:#64748b; --faint:#94a3b8;
+  --brand:#1d4ed8; --brand-soft:#eff4ff; --brand-bd:#c7d7fe;
+  --green:#15803d; --green-bg:#f0fdf4; --green-bd:#bbf7d0;
+  --amber:#b45309; --amber-bg:#fffbeb; --amber-bd:#fde68a;
+  --red:#b91c1c; --red-bg:#fef2f2; --red-bd:#fecaca;
+  --slate:#475569; --slate-bg:#f1f5f9; --slate-bd:#e2e8f0;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 1px 3px rgba(15,23,42,.05);
+  --radius:10px;
+  --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+*[hidden]{display:none !important}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font:13px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:-.1px}
+.muted{color:var(--muted)}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+button,select,input{font-family:inherit;font-size:inherit;color:inherit}
+
+/* ---------- 顶部工具条 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:9px 18px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.brand-mark{
+  width:26px;height:26px;border-radius:7px;background:var(--brand);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;letter-spacing:.5px;
+}
+.brand-txt{display:flex;flex-direction:column;line-height:1.2}
+.brand-txt b{font-size:13px;font-weight:700}
+.brand-txt small{font-size:10.5px;color:var(--faint)}
+.topbar-sep{width:1px;height:26px;background:var(--border)}
+.top-title{font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.top-tools{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  padding:5px 11px;border:1px solid var(--border);background:var(--surface);
+  border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;
+  transition:background .12s,border-color .12s;
+}
+.btn:hover{background:var(--surface-3);border-color:#c9d4e2}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-primary:hover{background:#1a44bd;border-color:#1a44bd}
+.btn-sm{padding:3px 8px;font-size:11px;font-weight:600}
+.inp,.sel{
+  padding:5px 9px;border:1px solid var(--border);border-radius:7px;background:var(--surface);
+  font-size:12px;outline:none;
+}
+.inp:focus,.sel:focus{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+.inp[type=search]{width:210px}
+.chk{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.chk input{margin:0;accent-color:var(--brand)}
+.src{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:999px;border:1px solid var(--green-bd);background:var(--green-bg);color:var(--green);white-space:nowrap}
+.src.s-warn{border-color:var(--amber-bd);background:var(--amber-bg);color:var(--amber)}
+.src.s-brand{border-color:var(--brand-bd);background:var(--brand-soft);color:var(--brand)}
+.src.s-skip{border-color:var(--slate-bd);background:var(--slate-bg);color:var(--slate)}
+.src-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* ---------- 布局 ---------- */
+.wrap{max-width:1760px;margin:0 auto;padding:16px 18px 28px}
+.columns{display:grid;gap:14px;grid-template-columns:1fr;align-items:start}
+.col-left,.col-center,.col-right{min-width:0}
+.col-right{display:flex;flex-direction:column;gap:14px}
+@media (min-width:1280px){
+  .columns{grid-template-columns:272px minmax(0,1fr) 348px;grid-template-areas:"left center right"}
+  .col-left{grid-area:left}.col-center{grid-area:center}.col-right{grid-area:right}
+}
+@media (min-width:1000px) and (max-width:1279px){
+  .columns{grid-template-columns:280px minmax(0,1fr);grid-template-areas:"left center" "right right"}
+  .col-left{grid-area:left}.col-center{grid-area:center}.col-right{grid-area:right}
+  .col-right{flex-direction:row;align-items:flex-start}
+  .col-right > .panel{flex:1;min-width:0}
+}
+@media (max-width:1279px){
+  .stage-list,.rules-list,.gate-list,.shots-list{max-height:none !important;overflow:visible !important}
+}
+
+/* ---------- 面板 ---------- */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border-2);background:linear-gradient(180deg,#fff,#fcfdff)}
+.panel-head h2{margin:0;font-size:13.5px;font-weight:700;letter-spacing:.2px}
+.ph-meta{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.panel-body{padding:12px 14px}
+
+/* ---------- 通用徽章 / 状态色 ---------- */
+.badge{display:inline-flex;align-items:center;padding:0 8px;border-radius:999px;font-size:11px;font-weight:700;line-height:19px;white-space:nowrap;border:1px solid transparent}
+.s-pass{color:var(--green);background:var(--green-bg);border-color:var(--green-bd)}
+.s-warn{color:var(--amber);background:var(--amber-bg);border-color:var(--amber-bd)}
+.s-fail{color:var(--red);background:var(--red-bg);border-color:var(--red-bd)}
+.s-skip{color:var(--slate);background:var(--slate-bg);border-color:var(--slate-bd)}
+.s-brand{color:var(--brand);background:var(--brand-soft);border-color:var(--brand-bd)}
+
+/* ---------- 提示条 ---------- */
+.notice-bar{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.notice{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;border-radius:9px;border:1px solid;font-size:12.5px}
+.notice-warn{background:var(--amber-bg);border-color:var(--amber-bd);color:#7c4a06}
+.notice-alert{background:var(--red-bg);border-color:var(--red-bd);color:#7f1d1d}
+.notice-info{background:var(--brand-soft);border-color:var(--brand-bd);color:#1e3a8a}
+.notice-tag{flex:0 0 auto;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.75);border:1px solid currentColor;line-height:17px;white-space:nowrap}
+.notice-text{flex:1;min-width:0;line-height:1.6}
+.notice-text strong{font-weight:700}
+.notice-sub{margin-top:3px;font-size:11.5px;opacity:.85}
+.notice-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;flex:0 0 auto}
+
+/* ---------- 总览 ---------- */
+.overview{padding:14px 16px}
+.ov-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.ov-eyebrow{font-size:11px;color:var(--faint);letter-spacing:.4px;text-transform:uppercase;font-weight:600}
+.ov-title h1{margin:3px 0 7px;font-size:21px;font-weight:750;letter-spacing:.2px;line-height:1.3}
+.ov-meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11.5px;color:var(--muted)}
+.ov-meta b{color:var(--text);font-weight:600}
+.ov-status{display:flex;align-items:center;gap:14px}
+.ov-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:104px;padding:9px 12px;border-radius:9px;border:1px solid;font-weight:700}
+.ov-badge .ob-en{font-size:20px;letter-spacing:1.5px;line-height:1.1}
+.ov-badge .ob-cn{font-size:11px;font-weight:600;opacity:.85;margin-top:2px}
+.ov-score{display:flex;flex-direction:column;align-items:center;min-width:96px;padding:4px 6px}
+.ov-score span{font-size:34px;font-weight:750;line-height:1;color:var(--text)}
+.ov-score small{font-size:10.5px;color:var(--muted);margin-top:4px;white-space:nowrap}
+.ov-counts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.cnt{flex:1 1 0;min-width:96px;background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px;padding:8px 11px;display:flex;flex-direction:column;gap:1px}
+.cnt b{font-size:20px;font-weight:750;line-height:1.2}
+.cnt small{font-size:10.5px;color:var(--muted)}
+.cnt.pass b{color:var(--green)} .cnt.warn b{color:var(--amber)} .cnt.fail b{color:var(--red)}
+.cnt.blocker{background:var(--red-bg);border-color:var(--red-bd)}
+.cnt.blocker b{color:var(--red)} .cnt.blocker small{color:#b91c1c}
+.ov-evidence-banner{display:flex;gap:11px;align-items:flex-start;margin-top:13px;padding:11px 13px;border-radius:8px;border:1px solid var(--brand-bd);background:var(--brand-soft);color:#1e3a8a}
+.eb-tag{flex:0 0 auto;font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;background:var(--brand);color:#fff;line-height:19px;white-space:nowrap}
+.eb-text{font-size:12.5px;line-height:1.65}
+.eb-text strong{font-size:13.5px;font-weight:750}
+.ov-video{display:flex;gap:16px;margin-top:13px;padding-top:13px;border-top:1px solid var(--border-2);flex-wrap:wrap}
+.ov-video-info{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:7px}
+.lbl{font-size:10.5px;font-weight:700;color:var(--faint);letter-spacing:.5px;text-transform:uppercase}
+.ov-player{flex:0 0 auto}
+.player-wrap{position:relative;width:152px;height:270px;border-radius:8px;overflow:hidden;background:var(--surface-3);border:1px solid var(--border)}
+.player-wrap video{width:100%;height:100%;object-fit:contain;background:var(--surface-3);display:block}
+.player-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding:12px;background:var(--surface-3);color:var(--muted);font-size:12px;font-weight:600}
+.player-ph small{font-weight:400;font-size:10.5px;color:var(--faint);line-height:1.5}
+
+/* 路径项 */
+.path-item{display:inline-flex;align-items:center;gap:6px;max-width:100%;flex-wrap:wrap}
+.path-link{word-break:break-all;color:var(--brand);border-bottom:1px dotted var(--brand-bd)}
+.mini-btn{flex:0 0 auto;padding:1px 7px;border:1px solid var(--border);background:var(--surface);border-radius:5px;cursor:pointer;font-size:10.5px;font-weight:600;color:var(--muted);line-height:17px}
+.mini-btn:hover{background:var(--surface-3);border-color:#c9d4e2;color:var(--text)}
+.mini-btn.copied{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+
+/* ---------- Stage 时间线 ---------- */
+.stage-list{position:relative;max-height:760px;overflow-y:auto;overscroll-behavior:contain;padding:12px 12px 4px}
+.stage-list::before{content:"";position:absolute;left:23px;top:22px;bottom:26px;width:2px;background:var(--border)}
+.stage{position:relative;padding-left:26px;margin-bottom:8px}
+.stage > summary{list-style:none;cursor:pointer;display:block;border:1px solid var(--border-2);border-radius:8px;background:var(--surface);padding:9px 10px;transition:border-color .12s,background .12s}
+.stage > summary::-webkit-details-marker{display:none}
+.stage > summary:hover{border-color:#c9d4e2;background:var(--surface-2)}
+.stage[open] > summary{border-color:var(--brand-bd);background:var(--brand-soft)}
+.tl-dot{position:absolute;left:-2px;top:14px;width:13px;height:13px;border-radius:50%;background:#fff;border:3px solid var(--slate);z-index:1}
+.tl-dot.s-pass{border-color:var(--green)} .tl-dot.s-warn{border-color:var(--amber)} .tl-dot.s-fail{border-color:var(--red)}
+.stage-line{display:flex;align-items:flex-start;gap:8px}
+.stage-idx{color:var(--faint);font-size:10.5px;font-weight:700;padding-top:1px;white-space:nowrap}
+.stage-main{flex:1;min-width:0}
+.stage-name{font-size:12.5px;font-weight:700;line-height:1.35}
+.stage-sub{font-size:10.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage-tags{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:0 0 auto}
+.gate-chip{font-size:10px;font-weight:600;padding:0 6px;border-radius:4px;line-height:16px;border:1px solid var(--border-2);color:var(--muted);background:var(--surface-2);white-space:nowrap}
+.gate-chip.s-warn{color:var(--amber);background:var(--amber-bg);border-color:var(--amber-bd)}
+.gate-chip.s-fail{color:var(--red);background:var(--red-bg);border-color:var(--red-bd)}
+.gate-chip.s-pass{color:var(--green);background:var(--green-bg);border-color:var(--green-bd)}
+.chev{width:0;height:0;border-left:5px solid var(--faint);border-top:4px solid transparent;border-bottom:4px solid transparent;margin-top:6px;transition:transform .15s}
+.stage[open] .chev{transform:rotate(90deg)}
+.stage-body{padding:9px 10px 11px;border:1px solid var(--border-2);border-top:none;border-radius:0 0 8px 8px;background:var(--surface-2);margin:0 1px;font-size:11.5px}
+.sb-row{display:flex;gap:8px;padding:2px 0;line-height:1.55}
+.sb-lbl{flex:0 0 64px;color:var(--faint);font-size:10.5px;font-weight:600;letter-spacing:.2px}
+.sb-sec{margin-top:9px;padding-top:8px;border-top:1px dashed var(--border)}
+.sb-sec-h{font-size:11px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.count{font-size:10px;font-weight:600;color:var(--muted);background:var(--surface-3);border:1px solid var(--border-2);border-radius:999px;padding:0 6px;line-height:16px}
+.art-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.art-item{display:flex;flex-direction:column;gap:2px;background:var(--surface);border:1px solid var(--border-2);border-radius:6px;padding:6px 8px}
+.art-head{display:flex;align-items:center;gap:6px}
+.type-tag{font-family:var(--mono);font-size:9.5px;font-weight:700;text-transform:uppercase;color:var(--brand);background:var(--brand-soft);border:1px solid var(--brand-bd);border-radius:4px;padding:0 5px;line-height:15px}
+.art-label{font-weight:600;font-size:11.5px}
+.rel-checks{display:flex;flex-wrap:wrap;gap:5px}
+.rel-chip{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:5px;border:1px solid var(--border);background:var(--surface);cursor:pointer;line-height:17px}
+.rel-chip:hover{border-color:var(--brand);color:var(--brand)}
+.rel-chip.s-fail{border-color:var(--red-bd);background:var(--red-bg);color:var(--red)}
+.rel-chip.s-warn{border-color:var(--amber-bd);background:var(--amber-bg);color:var(--amber)}
+.rel-chip.s-pass{border-color:var(--green-bd);background:var(--green-bg);color:var(--green)}
+
+/* ---------- 规则明细 ---------- */
+.toolbar{display:flex;flex-direction:column;gap:9px;padding:11px 14px;border-bottom:1px solid var(--border-2);background:var(--surface-2)}
+.filter-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.fl-lbl{font-size:10.5px;font-weight:700;color:var(--faint);letter-spacing:.4px;white-space:nowrap}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{padding:3px 10px;border:1px solid var(--border);background:var(--surface);border-radius:6px;cursor:pointer;font-size:11.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.chip:hover{border-color:#c9d4e2}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.chip.on-fail{background:var(--red);border-color:var(--red);color:#fff}
+.rules-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;font-size:11.5px;color:var(--muted);border-bottom:1px solid var(--border-2);background:#fcfdff}
+.rules-list{max-height:780px;overflow-y:auto;overscroll-behavior:contain;padding:10px 14px 14px}
+.cat-group{margin-bottom:14px}
+.cat-head{display:flex;align-items:center;gap:9px;padding:5px 9px;background:var(--surface-3);border:1px solid var(--border-2);border-radius:7px;margin-bottom:8px;position:sticky;top:-10px;z-index:2}
+.cat-name{font-size:12.5px;font-weight:750}
+.cat-count{font-size:10.5px;color:var(--muted)}
+.cat-items{display:flex;flex-direction:column;gap:8px}
+.check{border:1px solid var(--border);border-left:3px solid var(--green);border-radius:8px;background:var(--surface);padding:10px 12px;transition:box-shadow .15s}
+.check.s-warn{border-left-color:var(--amber)}
+.check.s-fail{border-left-color:var(--red)}
+.check.s-skip{border-left-color:var(--slate-bd)}
+.check.is-fail{background:linear-gradient(90deg,var(--red-bg),#fff 42%);border-color:var(--red-bd);box-shadow:0 0 0 1px var(--red-bg)}
+.check.flash{box-shadow:0 0 0 3px var(--brand-soft),0 0 0 1px var(--brand)}
+.ck-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.ck-id{font-weight:750;color:var(--brand);background:var(--brand-soft);border:1px solid var(--brand-bd);border-radius:5px;padding:0 6px;line-height:19px}
+.ck-rule{color:var(--muted);background:var(--surface-3);border:1px solid var(--border-2);border-radius:5px;padding:0 6px;line-height:19px}
+.ck-name{font-size:12.5px;font-weight:700;flex:1;min-width:120px}
+.ck-cmp{display:grid;grid-template-columns:1fr 22px 1fr;gap:8px;align-items:stretch;margin-bottom:8px}
+.cmp-col{background:var(--surface-2);border:1px solid var(--border-2);border-radius:6px;padding:6px 9px;min-width:0;display:flex;flex-direction:column;gap:2px}
+.cmp-col.actual-fail{background:var(--red-bg);border-color:var(--red-bd)}
+.ck-lbl{font-size:10px;font-weight:700;color:var(--faint);letter-spacing:.3px;text-transform:uppercase}
+.cmp-val{word-break:break-all;font-size:11.5px;line-height:1.45}
+.cmp-arrow{display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:15px}
+.ck-detail{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px}
+.ck-detail > div{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:5px;border-top:1px dashed var(--border-2)}
+.ck-detail .wide{grid-column:1 / -1}
+.ck-detail .val{font-size:11.5px;color:var(--text);word-break:break-word;line-height:1.5}
+.ck-detail .val.hint{color:#7c4a06}
+
+/* ---------- 人工确认门 ---------- */
+.gate-summary{display:flex;gap:7px;padding:9px 14px;border-bottom:1px solid var(--border-2);background:var(--surface-2);flex-wrap:wrap}
+.gs{font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid var(--border)}
+.gs.pending{color:var(--amber);background:var(--amber-bg);border-color:var(--amber-bd)}
+.gs.rejected{color:var(--red);background:var(--red-bg);border-color:var(--red-bd)}
+.gs.approved{color:var(--green);background:var(--green-bg);border-color:var(--green-bd)}
+.gate-list{max-height:330px;overflow-y:auto;overscroll-behavior:contain;padding:10px 12px 12px;display:flex;flex-direction:column;gap:9px}
+.gate{border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:var(--surface)}
+.gate.is-pending{border-color:var(--amber-bd);background:linear-gradient(180deg,var(--amber-bg),#fff 60%)}
+.gate.is-rejected{border-color:var(--red-bd);background:linear-gradient(180deg,var(--red-bg),#fff 60%)}
+.gate-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gate-id{font-weight:750;color:var(--brand);background:var(--brand-soft);border:1px solid var(--brand-bd);border-radius:5px;padding:0 6px;line-height:19px}
+.gate-name{font-size:12.5px;font-weight:700;flex:1;min-width:100px}
+.gate-meta{font-size:10.5px;color:var(--muted);margin-top:4px}
+.gate-notice{margin-top:7px;font-size:11.5px;font-weight:700;padding:5px 9px;border-radius:6px;line-height:1.5}
+.gate-notice.pending{background:var(--amber-bg);border:1px solid var(--amber-bd);color:var(--amber)}
+.gate-notice.rejected{background:var(--red-bg);border:1px solid var(--red-bd);color:var(--red)}
+.gate-fields{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.gf{display:flex;flex-direction:column;gap:1px;padding-top:5px;border-top:1px dashed var(--border-2)}
+.gf-lbl{font-size:10px;font-weight:700;color:var(--faint);letter-spacing:.3px}
+.gf-val{font-size:11.5px;line-height:1.5;word-break:break-word}
+.gf-val.reject{color:var(--red);font-weight:600}
+
+/* ---------- 镜头卡片墙 ---------- */
+.shots-list{max-height:470px;overflow-y:auto;overscroll-behavior:contain;padding:11px 12px 13px}
+.shot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:9px}
+.shot-card{display:flex;gap:9px;text-align:left;padding:8px;border:1px solid var(--border);border-left:3px solid var(--green);border-radius:8px;background:var(--surface);cursor:pointer;transition:box-shadow .12s,border-color .12s;width:100%}
+.shot-card:hover{box-shadow:0 2px 8px rgba(15,23,42,.09);border-color:var(--brand-bd)}
+.shot-card.s-warn{border-left-color:var(--amber)}
+.shot-card.s-fail{border-left-color:var(--red);background:linear-gradient(90deg,var(--red-bg),#fff 55%)}
+.shot-card.s-skip{border-left-color:var(--slate-bd)}
+.thumb{flex:0 0 50px;width:50px;height:89px;border-radius:5px;overflow:hidden;position:relative;background:var(--surface-3);border:1px solid var(--border-2)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center;background:repeating-linear-gradient(45deg,var(--surface-3),var(--surface-3) 6px,#eaeef4 6px,#eaeef4 12px);color:var(--faint);font-size:10px;font-weight:700;line-height:1.35}
+.thumb-ph small{font-size:8.5px;font-weight:500}
+.shot-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.shot-h{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.shot-h .mono{font-weight:750;font-size:12px}
+.shot-dur{font-size:10.5px;color:var(--muted)}
+.shot-sub{font-size:11px;line-height:1.4;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.shot-issues{display:flex;flex-direction:column;gap:2px;margin-top:1px}
+.issue{font-size:10px;color:var(--red);background:var(--red-bg);border:1px solid var(--red-bd);border-radius:4px;padding:1px 5px;line-height:15px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shot-ok{font-size:10px;color:var(--green)}
+
+/* ---------- 空状态 ---------- */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7px;padding:34px 18px;color:var(--muted)}
+.empty-title{font-size:14px;font-weight:700;color:var(--text)}
+.empty-hint{font-size:12px;line-height:1.65;max-width:520px}
+.empty-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+
+/* ---------- 媒体弹层 ---------- */
+.modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-mask{position:absolute;inset:0;background:rgba(15,23,42,.45)}
+.modal-box{position:relative;z-index:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 18px 50px rgba(15,23,42,.25);width:min(760px,100%);max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 15px;border-bottom:1px solid var(--border-2)}
+.modal-head h3{margin:0;font-size:14px;font-weight:700}
+.modal-body{display:flex;gap:16px;padding:14px 15px;overflow:auto;flex-wrap:wrap}
+.modal-media{flex:0 0 auto;width:216px;max-width:100%}
+.modal-media .player-wrap{width:216px;height:384px}
+.modal-info{flex:1;min-width:220px;display:flex;flex-direction:column;gap:8px;font-size:12px}
+.modal-frame{width:120px;height:213px;border:1px solid var(--border-2);border-radius:6px;object-fit:cover;background:var(--surface-3)}
+
+/* ---------- Toast / 页脚 ---------- */
+.toast{position:fixed;right:18px;bottom:18px;z-index:80;background:var(--surface);color:var(--text);border:1px solid var(--brand-bd);border-left:3px solid var(--brand);font-size:12px;font-weight:600;padding:9px 14px;border-radius:8px;box-shadow:0 6px 20px rgba(15,23,42,.14);max-width:360px}
+.foot{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.foot-card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:11.5px;color:var(--muted);line-height:1.65}
+.foot-card b{color:var(--text);font-weight:700;display:block;margin-bottom:2px;font-size:12px}
+.foot-card code{font-family:var(--mono);font-size:11px;background:var(--surface-3);padding:1px 4px;border-radius:4px;color:var(--brand)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">时象</div>
+    <div class="brand-txt"><b>时象助手 · 查验台</b><small>人可随时查验符合 / 逐环节留痕</small></div>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="top-title">本地验收控制台 · 单一数据源 output/status.json</div>
+  <div class="top-tools">
+    <span class="src s-skip" id="sourceState"><span class="src-dot"></span><span id="sourceText">未载入数据</span></span>
+    <button class="btn btn-primary btn-sm" id="refreshBtn">刷新查验</button>
+    <label class="btn btn-sm" for="fileInput">选择 status.json 文件</label>
+    <input type="file" id="fileInput" accept=".json,application/json" hidden>
+    <label class="chk"><input type="checkbox" id="pollToggle"> 自动轮询</label>
+    <select class="sel" id="pollInterval" aria-label="轮询间隔">
+      <option value="3">3 秒</option><option value="5" selected>5 秒</option>
+      <option value="10">10 秒</option><option value="30">30 秒</option>
+    </select>
+    <span class="mono muted" id="lastLoad"></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="notice-bar" id="noticeBar" hidden></div>
+  <div class="notice-bar" id="gateAlertBar" hidden></div>
+
+  <section class="panel overview" id="overview"></section>
+
+  <section class="panel" id="directorPanel" style="margin-bottom:14px"></section>
+
+  <div class="columns">
+    <div class="col-left">
+      <section class="panel" id="stagesPanel"></section>
+    </div>
+    <div class="col-center">
+      <section class="panel" id="rulesPanel"></section>
+    </div>
+    <div class="col-right">
+      <section class="panel" id="gatesPanel"></section>
+      <section class="panel" id="shotsPanel"></section>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <div class="foot-card"><b>路径说明</b>status.json 中所有 path 均相对项目根目录；本页位于 <code>console/</code>，故成片 <code>../output/06_final/EP01.mp4</code>、缩略图 <code>../output/03_frames/Sxx.png</code>、clip <code>../output/04_clips/Sxx.mp4</code>、数据源 <code>../output/status.json</code> 均按此规则解析。点击路径即在新窗口打开原始证据文件，逐条比对实测值。</div>
+    <div class="foot-card"><b>本地 http 打开（推荐）</b>在项目根目录执行 <code>python3 -m http.server 8000</code>，访问 <code>http://localhost:8000/console/index.html</code> 即可自动读取 status.json，并支持自动轮询。</div>
+    <div class="foot-card"><b>file:// 双击打开</b>浏览器会拦截 <code>fetch</code>，但 <code>&lt;script src="data.js"&gt;</code> 不受该限制：页面会自动载入流水线生成的<strong>本机真实数据快照</strong>，可直接查验。也可用「选择 status.json 文件」手动载入指定文件。</div>
+    <div class="foot-card"><b>数据契约</b>依据 SPEC.md 第 3.1 节 status.json、第 4 节 stage 与人工门表。status 枚举 pass / warn / fail / skipped；severity 枚举 blocker / major / minor；gate.status 枚举 approved / pending / rejected。</div>
+  </footer>
+</main>
+
+<div class="modal" id="mediaModal" hidden>
+  <div class="modal-mask" data-close></div>
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="modalTitle">镜头预览</h3><button class="btn btn-sm" data-close>关闭</button></div>
+    <div class="modal-body">
+      <div class="modal-media">
+        <div class="player-wrap">
+          <video id="modalVideo" controls playsinline preload="metadata"></video>
+          <div class="player-ph" id="modalVideoPh" hidden>该镜 clip 预览不可用<small>请到 output/04_clips/ 打开对应 MP4</small></div>
+        </div>
+      </div>
+      <div class="modal-info" id="modalInfo"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<!-- pipeline.py 每次写 status.json 时同步生成的真实数据快照；script src 不受 file:// 的 CORS 限制 -->
+<script src="data.js"></script>
+<script>
+"use strict";
+
+/* ============================================================
+   常量：SPEC 第 4 节 stage 与人工门表（静态定义，缺数据时仍可展示结构）
+   ============================================================ */
+var STAGE_DEFS = [
+  {id:"00_previs",     name:"导演台预演与质量门",   owner:"导演 Agent", gate:null},
+  {id:"01_script",     name:"剧本与合规预审",       owner:"制片 Agent", gate:"G1"},
+  {id:"02_characters", name:"角色资产与一致性锁定", owner:"美术 Agent", gate:"G2"},
+  {id:"03_frames",     name:"真人帧 → 漫画化转绘",  owner:"转绘 Agent", gate:"G3"},
+  {id:"04_clips",      name:"逐镜生产（真视频/视差）",owner:"动画 Agent", gate:null},
+  {id:"05_audio",      name:"本地配音 / BGM / 音效",owner:"声音 Agent", gate:"G4"},
+  {id:"06_final",      name:"字幕 / 合成 / 导出",   owner:"剪辑 Agent", gate:null},
+  {id:"07_reports",    name:"逐镜质检 + 逐条验收",  owner:"质检 Agent", gate:"G5"}
+];
+
+/* 内嵌演示数据（SPEC 第 3.1 节兜底）：仅用于预览功能，非真实产物 */
+var DEMO = {
+  schema_version:"1.0",
+  project:"时象助手 · 本地真人漫剧制作 Agent",
+  episode_title:"雾港来信 · 第一集「第七封信」",
+  run_id:"20261112-183500",
+  generated_at:"2026-11-12T18:35:00+08:00",
+  mode:"demo",
+  overall:{status:"FAIL",score:74,total:16,passed:9,warned:3,failed:4,blocker_failed:1},
+  stages:[
+    {id:"01_script",name:"剧本与合规预审",owner:"制片 Agent",status:"pass",duration_s:1.2,summary:"12 镜，总时长 74.6s，台词均 ≤ 24 字",
+      artifacts:[{label:"分镜脚本",path:"output/01_script/storyboard.json",type:"json"},{label:"归档剧本",path:"output/01_script/script.md",type:"md"},{label:"合规预审记录",path:"output/01_script/precheck.json",type:"json"}],
+      checks:["C08"],gate:{id:"G1",status:"approved",note:"",reviewer:"人工"}},
+    {id:"02_characters",name:"角色资产与一致性锁定",owner:"美术 Agent",status:"pass",duration_s:2.8,summary:"3 个角色，identity_anchors 各 ≥ 3 条",
+      artifacts:[{label:"角色卡",path:"output/02_characters/characters.json",type:"json"},{label:"一致性报告",path:"output/02_characters/consistency.md",type:"md"},{label:"角色设定图目录",path:"output/02_characters/character_sheets/",type:"dir"}],
+      checks:["C10"],gate:{id:"G2",status:"approved",note:"3 个角色 anchors 已核对",reviewer:"人工"}},
+    {id:"03_frames",name:"真人帧 → 漫画化转绘",owner:"转绘 Agent",status:"warn",duration_s:12.4,summary:"12 镜 PNG 1080×1920；S07 转绘参数漂移",
+      artifacts:[{label:"每镜转绘 PNG（12 张）",path:"output/03_frames/",type:"dir"},{label:"转绘参数",path:"output/03_frames/comicify_params.json",type:"json"}],
+      checks:["C11"],gate:{id:"G3",status:"pending",note:"等待人工确认 S07 是否需重绘",reviewer:"人工"}},
+    {id:"04_clips",name:"微动效镜头生成",owner:"动画 Agent",status:"pass",duration_s:8.6,summary:"12 镜 MP4，kenburns 微动效，无门",
+      artifacts:[{label:"每镜 clip（12 段）",path:"output/04_clips/",type:"dir"}],checks:[],gate:null},
+    {id:"05_audio",name:"本地配音 / BGM / 音效",owner:"声音 Agent",status:"fail",duration_s:5.1,summary:"S09 配音音画偏移 220ms，门已驳回",
+      artifacts:[{label:"每镜 AIFF（12 段）",path:"output/05_audio/",type:"dir"},{label:"总轨",path:"output/05_audio/master.aiff",type:"aiff"}],
+      checks:["C14","C16"],gate:{id:"G4",status:"rejected",note:"S09 配音偏移 220ms，驳回重录",reviewer:"人工"}},
+    {id:"06_final",name:"字幕 / 合成 / 导出",owner:"剪辑 Agent",status:"pass",duration_s:4.3,summary:"合成 EP01.mp4，74.6s，内嵌字幕",
+      artifacts:[{label:"成片",path:"output/06_final/EP01.mp4",type:"mp4"},{label:"字幕",path:"output/06_final/EP01.srt",type:"srt"}],
+      checks:["C01","C02","C03","C04","C05","C06","C07","C09","C15"],gate:null},
+    {id:"07_reports",name:"逐条验收 + 报告",owner:"质检 Agent",status:"pass",duration_s:0.9,summary:"16 条规则逐条验收完成，报告已归档",
+      artifacts:[{label:"合规报告",path:"output/07_reports/compliance_report.md",type:"md"},{label:"查验台数据源",path:"output/status.json",type:"json"}],
+      checks:["C12","C13"],gate:{id:"G5",status:"pending",note:"存在 4 条不通过项，暂不可终审通过",reviewer:"人工"}}
+  ],
+  checks:[
+    {id:"C01",rule_id:"HG-TECH-01",stage:"06_final",name:"竖屏画幅 1080×1920",category:"技术规格",severity:"blocker",status:"pass",expected:"1080x1920",actual:"1080x1920",evidence:"output/06_final/EP01.mp4",source:"红果短剧漫剧上传规范 · 画幅基线",how_to_verify:"双击成片查看，或 ffmpeg -i output/06_final/EP01.mp4 查看 Stream 信息",fix_hint:"在 config/project.json 调整 width/height 后重跑 06_final"},
+    {id:"C02",rule_id:"HG-TECH-02",stage:"06_final",name:"H.264 视频编码",category:"技术规格",severity:"blocker",status:"pass",expected:"H.264",actual:"H.264 (avc1)",evidence:"output/06_final/EP01.mp4",source:"红果短剧漫剧上传规范 · 编码基线",how_to_verify:"ffmpeg -i 查看 Video: h264",fix_hint:"在 config/project.json 将 codec 设为 libx264 后重跑 06_final"},
+    {id:"C03",rule_id:"HG-TECH-03",stage:"06_final",name:"帧率 25 / 30 fps",category:"技术规格",severity:"major",status:"pass",expected:"25 或 30 fps",actual:"25 fps",evidence:"output/06_final/EP01.mp4",source:"SPEC 第 6 节 红果硬指标基线",how_to_verify:"ffmpeg -i 查看 fps",fix_hint:"调整 config/project.json 的 fps 后导出"},
+    {id:"C04",rule_id:"HG-TECH-04",stage:"06_final",name:"视频码率 ≥ 4 Mbps",category:"技术规格",severity:"major",status:"warn",expected:">= 4000 kbps",actual:"3850 kbps",evidence:"output/06_final/EP01.mp4",source:"SPEC 第 6 节 建议 8~12Mbps，不低于 4Mbps",how_to_verify:"ffprobe -v error -show_entries format=bit_rate 查看实测码率",fix_hint:"提高 config/project.json 的 video_bitrate 后重跑 06_final"},
+    {id:"C05",rule_id:"HG-TECH-05",stage:"06_final",name:"音频 AAC / 44100Hz / 双声道",category:"技术规格",severity:"major",status:"pass",expected:"AAC / 44100 / 2ch",actual:"AAC / 44100 / 2ch",evidence:"output/06_final/EP01.mp4",source:"红果短剧漫剧上传规范 · 音频基线",how_to_verify:"ffmpeg -i 查看 Audio: aac, 44100 Hz, stereo",fix_hint:"检查 05_audio 总轨重采样参数后重跑 06_final"},
+    {id:"C06",rule_id:"HG-TECH-06",stage:"06_final",name:"单集时长 60~120s",category:"技术规格",severity:"minor",status:"pass",expected:"60 ~ 120 s",actual:"74.6 s",evidence:"output/06_final/EP01.mp4",source:"SPEC 第 6 节 单集 60~120s 为佳",how_to_verify:"播放器查看总时长，或 ffprobe 查看 duration",fix_hint:"调整分镜镜头数或单镜时长后重跑"},
+    {id:"C07",rule_id:"HG-TECH-07",stage:"06_final",name:"无水印 / 无黑边 / 无 alpha",category:"技术规格",severity:"blocker",status:"fail",expected:"无水印、无黑边、无 alpha 通道",actual:"片尾检测到 2px 黑边",evidence:"output/06_final/EP01.mp4",source:"SPEC 第 6 节 无水印、无黑边、无 alpha 通道",how_to_verify:"逐帧拖到片尾，或 ffmpeg cropdetect 检测黑边",fix_hint:"在 06_final 合成时去除 padding / 统一画布为 1080×1920 后重跑；此项为 blocker，修复前不可上架"},
+    {id:"C08",rule_id:"HG-CONTENT-01",stage:"01_script",name:"题材红线排查",category:"内容合规",severity:"blocker",status:"pass",expected:"不涉及受限题材",actual:"都市悬疑，未命中红线",evidence:"output/01_script/precheck.json",source:"SPEC 第 6 节 内容红线：灵异迷信 / 猎奇 / 超自然金手指等",how_to_verify:"打开 output/01_script/script.md 与预审记录人工通读",fix_hint:"修改 input/demo/script.md 与 storyboard.json 后执行 pipeline.py --from 01_script"},
+    {id:"C09",rule_id:"HG-CONTENT-02",stage:"06_final",name:"片头「AI 辅助制作」标识",category:"内容合规",severity:"major",status:"warn",expected:"片头显著标注「AI 辅助制作」",actual:"已标注，但字号偏小",evidence:"output/06_final/EP01.mp4",source:"SPEC 第 6 节 片头标注「AI 辅助制作」",how_to_verify:"播放成片前 3 秒，确认标识清晰可读",fix_hint:"调大 06_final drawtext 字号与停留时长后重跑"},
+    {id:"C10",rule_id:"HG-CONTENT-03",stage:"02_characters",name:"角色五官跨镜一致",category:"内容合规",severity:"blocker",status:"pass",expected:"identity_anchors 跨镜吻合",actual:"3 / 3 角色吻合",evidence:"output/02_characters/consistency.md",source:"SPEC 第 6 节 角色五官跨镜一致、跨剧撞脸驳回",how_to_verify:"打开 output/02_characters/character_sheets/ 逐张比对锚点",fix_hint:"补充 characters.json 的 identity_anchors 后执行 pipeline.py --from 02_characters"},
+    {id:"C11",rule_id:"HG-CONTENT-04",stage:"03_frames",name:"全剧画风统一",category:"内容合规",severity:"major",status:"fail",expected:"统一国漫写实画风",actual:"S07 转绘参数漂移，色调偏冷",evidence:"output/03_frames/S07.png",source:"SPEC 第 6 节 全剧画风统一",how_to_verify:"逐张打开 output/03_frames/Sxx.png 横向对比 S06 / S07 / S08",fix_hint:"统一 config/project.json 转绘参数后执行 pipeline.py --from 03_frames"},
+    {id:"C12",rule_id:"HG-RIGHTS-01",stage:"07_reports",name:"创作链路留痕完整",category:"版权留痕",severity:"major",status:"pass",expected:"剧本 / 分镜 / 参数 / 工程齐全",actual:"7 类产物齐全",evidence:"output/07_reports/compliance_report.md",source:"SPEC 第 6 节 创作链路留痕",how_to_verify:"打开 output/07_reports/compliance_report.md 核对留痕清单",fix_hint:"补齐缺失环节产物后执行 pipeline.py --from 07_reports"},
+    {id:"C13",rule_id:"HG-RIGHTS-02",stage:"07_reports",name:"原创声明归档",category:"版权留痕",severity:"minor",status:"warn",expected:"原创声明归档至 07_reports",actual:"已归档，但命名不规范",evidence:"output/07_reports/originality.txt",source:"SPEC 第 6 节 原创声明与授权记录",how_to_verify:"打开 output/07_reports/ 检查声明文件命名与内容",fix_hint:"按规范重命名声明文件后重新归档"},
+    {id:"C14",rule_id:"HG-AV-01",stage:"05_audio",name:"音画同步",category:"音画质量",severity:"major",status:"fail",expected:"偏差 ≤ 80 ms",actual:"S09 偏差 220 ms",evidence:"output/05_audio/S09.aiff",source:"SPEC 第 6 节 音画质量基线",how_to_verify:"播放 output/04_clips/S09.mp4 与 output/05_audio/S09.aiff 比对口型",fix_hint:"重录 S09 配音并校准偏移后执行 pipeline.py --from 05_audio"},
+    {id:"C15",rule_id:"HG-AV-02",stage:"06_final",name:"内嵌字幕白字黑描边",category:"音画质量",severity:"minor",status:"fail",expected:"白字 + 黑描边",actual:"S09 字幕缺黑描边",evidence:"output/06_final/EP01.mp4",source:"SPEC 第 6 节 内嵌字幕（白字黑描边）",how_to_verify:"播放成片定位 S09 字幕，检查描边与可读性",fix_hint:"检查 06_final drawtext 的 borderw / bordercolor 后重跑"},
+    {id:"C16",rule_id:"HG-AV-03",stage:"05_audio",name:"无爆音 / 异常静音段",category:"音画质量",severity:"minor",status:"pass",expected:"无爆音、无异常静音",actual:"未检出",evidence:"output/05_audio/master.aiff",source:"SPEC 第 6 节 音画质量基线",how_to_verify:"试听 output/05_audio/master.aiff，或 ffmpeg silencedetect",fix_hint:"重录异常片段后执行 pipeline.py --from 05_audio"}
+  ],
+  shots:[
+    {id:"S01",duration_s:5.0,status:"pass",frame:"output/03_frames/S01.png",clip:"output/04_clips/S01.mp4",audio:"output/05_audio/S01.aiff",subtitle:"这封信，我等了七年。",issues:[]},
+    {id:"S02",duration_s:4.5,status:"pass",frame:"output/03_frames/S02.png",clip:"output/04_clips/S02.mp4",audio:"output/05_audio/S02.aiff",subtitle:"别回头，后面没人。",issues:[]},
+    {id:"S03",duration_s:6.0,status:"pass",frame:"output/03_frames/S03.png",clip:"output/04_clips/S03.mp4",audio:"output/05_audio/S03.aiff",subtitle:"雾港的邮筒，从来不寄信。",issues:[]},
+    {id:"S04",duration_s:5.5,status:"pass",frame:"output/03_frames/S04.png",clip:"output/04_clips/S04.mp4",audio:"output/05_audio/S04.aiff",subtitle:"可它昨晚，响了。",issues:[]},
+    {id:"S05",duration_s:5.0,status:"pass",frame:"output/03_frames/S05.png",clip:"output/04_clips/S05.mp4",audio:"output/05_audio/S05.aiff",subtitle:"七这个数字，又出现了。",issues:[]},
+    {id:"S06",duration_s:4.0,status:"warn",frame:"output/03_frames/S06.png",clip:"output/04_clips/S06.mp4",audio:"output/05_audio/S06.aiff",subtitle:"同一只银色耳钉。",issues:["边缘描线略糊"]},
+    {id:"S07",duration_s:6.5,status:"fail",frame:"output/03_frames/S07.png",clip:"output/04_clips/S07.mp4",audio:"output/05_audio/S07.aiff",subtitle:"画风偏冷，与前后镜不统一。",issues:["转绘参数漂移","色调偏冷"]},
+    {id:"S08",duration_s:5.0,status:"pass",frame:"output/03_frames/S08.png",clip:"output/04_clips/S08.mp4",audio:"output/05_audio/S08.aiff",subtitle:"他把信折成了纸船。",issues:[]},
+    {id:"S09",duration_s:5.5,status:"fail",frame:"output/03_frames/S09.png",clip:"output/04_clips/S09.mp4",audio:"output/05_audio/S09.aiff",subtitle:"音画不同步，字幕缺描边。",issues:["配音偏移 220ms","字幕缺黑描边"]},
+    {id:"S10",duration_s:5.0,status:"pass",frame:"output/03_frames/S10.png",clip:"output/04_clips/S10.mp4",audio:"output/05_audio/S10.aiff",subtitle:"水面浮起第七个纸船。",issues:[]}
+  ],
+  human_gates:[
+    {id:"G1",stage:"01_script",name:"剧本与分镜确认",status:"approved",note:"",how_to_verify:"打开 output/01_script/script.md 与 storyboard.json 通读",reject_action:"修改 input/demo/storyboard.json 后执行 pipeline.py --from 01_script"},
+    {id:"G2",stage:"02_characters",name:"角色资产与一致性确认",status:"approved",note:"3 个角色 identity_anchors 已逐条核对",how_to_verify:"打开 output/02_characters/character_sheets/ 逐张比对",reject_action:"修改 input/demo/characters.json 后执行 pipeline.py --from 02_characters"},
+    {id:"G3",stage:"03_frames",name:"转绘风格确认",status:"pending",note:"等待人工确认 S07 是否需重绘",how_to_verify:"逐张打开 output/03_frames/Sxx.png 对比画风一致性",reject_action:"调整 config/project.json 转绘参数后执行 pipeline.py --from 03_frames"},
+    {id:"G4",stage:"05_audio",name:"配音与音画同步确认",status:"rejected",note:"S09 配音偏移 220ms，驳回重录",how_to_verify:"播放 output/04_clips/S09.mp4 与 output/05_audio/S09.aiff 比对",reject_action:"重录 S09 配音后执行 pipeline.py --from 05_audio"},
+    {id:"G5",stage:"07_reports",name:"终审确认",status:"pending",note:"存在 4 条不通过项，暂不可终审通过",how_to_verify:"打开 output/07_reports/compliance_report.md 逐条核对",reject_action:"修复不通过项后执行 pipeline.py --from 07_reports"}
+  ],
+  final_video:"output/06_final/EP01.mp4",
+  report_md:"output/07_reports/compliance_report.md"
+};
+
+/* ============================================================
+   状态
+   ============================================================ */
+/* 本机真实数据快照（流水线生成）；file:// 双击打开时优先用它，而不是演示假数据 */
+var SNAPSHOT = (window.__SHIXIANG_STATUS__ && typeof window.__SHIXIANG_STATUS__ === "object") ? window.__SHIXIANG_STATUS__ : null;
+var SNAPSHOT_AT = window.__SHIXIANG_SNAPSHOT_AT__ || "";
+
+var STATE = {
+  data:null, source:"none", fileName:"", fetchOk:false, raw:"", lastLoad:null,
+  timer:null, emptyReason:"",
+  filters:{status:"",category:"",kw:"",failTop:true}
+};
+
+/* ============================================================
+   工具函数（全部对缺失字段做防御）
+   ============================================================ */
+function esc(v){
+  if(v===null||v===undefined) return "";
+  return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function arr(v){ return Array.isArray(v)?v:[]; }
+function obj(v){ return (v && typeof v==="object" && !Array.isArray(v))?v:{}; }
+function txt(v,fb){ return (v===null||v===undefined||v==="")?(fb===undefined?"—":fb):String(v); }
+function num(v,fb){ if(v===null||v===undefined||v==="")return fb; var n=Number(v); return isFinite(n)?n:fb; }
+function normStatus(s){
+  s=String(s||"").toLowerCase();
+  if(s==="pass"||s==="passed"||s==="ok"||s==="approved") return "pass";
+  if(s==="warn"||s==="warning"||s==="pending") return "warn";
+  if(s==="fail"||s==="failed"||s==="error"||s==="rejected") return "fail";
+  if(s==="skipped"||s==="skip") return "skipped";
+  return "other";
+}
+function stClass(s){ var n=normStatus(s); return n==="pass"?"s-pass":n==="warn"?"s-warn":n==="fail"?"s-fail":"s-skip"; }
+function stLabel(s){
+  var m={pass:"通过",warn:"警告",fail:"不通过",skipped:"跳过",approved:"已通过",pending:"待确认",rejected:"已驳回"};
+  var k=String(s||"").toLowerCase(); return m[k]||(s?String(s):"未记录");
+}
+function sevClass(s){ var k=String(s||"").toLowerCase(); return k==="blocker"?"s-fail":k==="major"?"s-warn":"s-skip"; }
+function sevLabel(s){ var m={blocker:"阻断",major:"重要",minor:"一般"}; return m[String(s||"").toLowerCase()]||(s?String(s):"未分级"); }
+var RANK={fail:0,warn:1,pass:2,skipped:3,other:4};
+function rank(s){ var n=normStatus(s); return RANK[n]===undefined?4:RANK[n]; }
+/* status.json 的 path 相对项目根；本页在 console/ 内，故统一加 ../ */
+function webPath(p){
+  p=String(p||"").trim();
+  if(!p) return "";
+  if(/^(https?:|file:|blob:|data:)/i.test(p)) return p;
+  p=p.replace(/^\.\//,"");
+  if(/^\.\.\//.test(p)) return p;
+  return "../"+p;
+}
+function fmtTime(s){
+  if(!s) return "—";
+  var d=new Date(s);
+  if(isNaN(d.getTime())) return String(s);
+  function p(n){return String(n).padStart(2,"0");}
+  return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds());
+}
+function pathItem(raw,label){
+  raw=String(raw||"").trim();
+  if(!raw) return '<span class="muted">未提供路径</span>';
+  var wp=webPath(raw);
+  return '<span class="path-item">'+
+    '<a class="path-link mono" href="'+esc(wp)+'" target="_blank" rel="noopener" title="打开 '+esc(wp)+'">'+esc(label||raw)+'</a>'+
+    '<button type="button" class="mini-btn" data-copy="'+esc(raw)+'">复制</button>'+
+  '</span>';
+}
+function emptyBlock(title,hint,actions){
+  return '<div class="empty"><div class="empty-title">'+esc(title)+'</div>'+
+    '<div class="empty-hint">'+esc(hint)+'</div>'+(actions||"")+'</div>';
+}
+function commonActions(){
+  return '<div class="empty-actions">'+
+    '<label class="btn btn-primary" for="fileInput">选择 status.json 文件</label>'+
+    '<button class="btn" data-load-demo>载入内嵌示例数据</button>'+
+    '<button class="btn" data-retry-fetch>重试读取</button></div>';
+}
+function allEvidencePaths(d){
+  d=obj(d); var out=[],seen={};
+  function add(p){ p=String(p||"").trim(); if(p&&!seen[p]){seen[p]=1;out.push(p);} }
+  arr(d.checks).forEach(function(c){add(obj(c).evidence);});
+  arr(d.stages).forEach(function(s){arr(obj(s).artifacts).forEach(function(a){add(obj(a).path);});});
+  arr(d.shots).forEach(function(s){var o=obj(s);add(o.frame);add(o.clip);add(o.audio);});
+  add(d.final_video); add(d.report_md);
+  return out;
+}
+function toast(msg){
+  var el=document.getElementById("toast");
+  el.textContent=msg; el.hidden=false;
+  clearTimeout(toast._t); toast._t=setTimeout(function(){el.hidden=true;},2600);
+}
+function copyText(text,btn){
+  function done(){
+    if(btn){ var old=btn.textContent; btn.textContent="已复制"; btn.classList.add("copied");
+      setTimeout(function(){btn.textContent=old;btn.classList.remove("copied");},1300); }
+    else toast("已复制到剪贴板");
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(function(){fallbackCopy(text,done);});
+  }else fallbackCopy(text,done);
+}
+function fallbackCopy(text,done){
+  try{
+    var ta=document.createElement("textarea"); ta.value=text;
+    ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy"); document.body.removeChild(ta); done();
+  }catch(e){ toast("复制失败，请手动选择路径文本"); }
+}
+function buildGates(d){
+  var hg=arr(obj(d).human_gates);
+  if(hg.length) return hg.map(obj);
+  var byId={}; arr(obj(d).stages).forEach(function(s){if(s&&s.id)byId[s.id]=s;});
+  return STAGE_DEFS.filter(function(x){return x.gate;}).map(function(def){
+    var g=obj(obj(byId[def.id]).gate);
+    return {id:def.gate,name:def.name+"确认",stage:def.id,
+      status:g.status||"unknown",note:g.note||"status.json 未提供 human_gates，此处由 stage.gate 兜底",
+      how_to_verify:"",reject_action:"",reviewer:g.reviewer||""};
+  });
+}
+function gateStatusFor(def,byId,gates){
+  var g=obj(byId[def.id]).gate;
+  if(g && g.status) return g.status;
+  var found=null;
+  gates.forEach(function(x){ if(!found && (String(x.stage)===def.id || (def.gate && String(x.id)===def.gate))) found=x; });
+  return found?(found.status||"unknown"):(def.gate?"unknown":null);
+}
+
+/* ============================================================
+   数据载入
+   ============================================================ */
+function loadFromFetch(silent){
+  return fetch("../output/status.json",{cache:"no-store"}).then(function(r){
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return r.text();
+  }).then(function(t){
+    var d;
+    try{ d=JSON.parse(t); }catch(e){ throw new Error("status.json 不是合法 JSON"); }
+    var changed = t!==STATE.raw;
+    STATE.raw=t; STATE.fetchOk=true; STATE.lastLoad=new Date();
+    if(changed || STATE.source!=="fetch"){
+      STATE.data=d; STATE.source="fetch"; STATE.fileName="";
+      renderAll();
+    }else renderHeaderState();
+    if(!silent) toast("已从 output/status.json 载入最新数据");
+  });
+}
+function onFetchFail(err){
+  STATE.fetchOk=false;
+  if(STATE.data && STATE.source!=="none"){
+    renderNotice(); renderHeaderState();
+    toast("未能读取 ../output/status.json，已保留当前数据");
+  }else if(SNAPSHOT){
+    STATE.source="snapshot"; STATE.data=SNAPSHOT; STATE.lastLoad=new Date();
+    renderAll();
+    toast("已载入本机真实数据快照（file:// 模式）");
+  }else{
+    STATE.source="demo"; STATE.data=DEMO; STATE.lastLoad=new Date();
+    renderAll();
+  }
+}
+function applyDemo(){
+  STATE.data=DEMO; STATE.source="demo"; STATE.fileName=""; STATE.lastLoad=new Date();
+  STATE.fetchOk=false; STATE.raw=""; renderAll(); toast("已载入内嵌演示数据（非真实产物）");
+}
+function clearData(){
+  STATE.data=null; STATE.source="none"; STATE.fileName=""; STATE.lastLoad=null;
+  STATE.emptyReason="已清空当前数据。"; renderAll(); toast("已清空数据，展示空状态");
+}
+function setPolling(on){
+  clearInterval(STATE.timer); STATE.timer=null;
+  if(!on) return;
+  if(!STATE.fetchOk) toast("提示：自动轮询依赖 http 服务读取 ../output/status.json，file:// 下取不到更新");
+  var sec=num(document.getElementById("pollInterval").value,5);
+  STATE.timer=setInterval(function(){ loadFromFetch(true).catch(function(){}); },sec*1000);
+}
+
+/* ============================================================
+   渲染入口
+   ============================================================ */
+function renderAll(){
+  renderHeaderState(); renderNotice();
+  var d=STATE.data;
+  if(!d){ renderEmptyAll(); renderGateAlert(null); return; }
+  renderOverview(d); renderDirector(d); renderStages(d); renderRulesPanel(d);
+  renderGates(d); renderShots(d); renderGateAlert(d);
+}
+function renderHeaderState(){
+  var el=document.getElementById("sourceState"),tx=document.getElementById("sourceText");
+  var map={
+    fetch:["s-pass","已连接 · output/status.json"],
+    snapshot:["s-brand","本机真实快照 · data.js"],
+    demo:["s-warn","演示数据（内嵌）"],
+    file:["s-brand","手动载入 · "+STATE.fileName],
+    none:["s-skip","未载入数据"]
+  };
+  var m=map[STATE.source]||map.none;
+  el.className="src "+m[0]; tx.textContent=m[1];
+  document.getElementById("lastLoad").textContent=STATE.lastLoad?("最近载入 "+fmtTime(STATE.lastLoad.toISOString())):"";
+}
+function renderNotice(){
+  var bar=document.getElementById("noticeBar"),s=STATE.source,h="";
+  if(s==="fetch"){ bar.hidden=true; bar.innerHTML=""; return; }
+  if(s==="snapshot"){
+    h='<div class="notice notice-info"><span class="notice-tag">本机快照</span>'+
+      '<div class="notice-text">已载入<strong>本机真实查验数据</strong>（由 pipeline.py 生成，快照时间 '+esc(SNAPSHOT_AT||"见 data.js")+'）。'+
+      '所有证据文件均在本机 <code>output/</code> 目录，可随时打开核对；如需读取最新状态或启用自动轮询，请在项目根目录执行 <code>python3 -m http.server 8000</code> 后访问本页。'+
+      '<div class="notice-sub">流水线每完成一个环节都会同步更新 data.js，因此双击打开也能看到跑到一半的真实进度。</div></div>'+
+      '<div class="notice-actions"><label class="btn btn-primary btn-sm" for="fileInput">选择 status.json 文件</label>'+
+      '<button class="btn btn-sm" data-retry-fetch>重试自动读取</button>'+
+      '<button class="btn btn-sm" data-clear-data>清空数据</button></div></div>';
+  }else if(s==="demo"){
+    h='<div class="notice notice-warn"><span class="notice-tag">提示</span>'+
+      '<div class="notice-text"><strong>未能通过 fetch 读取 ../output/status.json</strong>（file:// 协议限制，或流水线尚未生成该文件）。'+
+      '当前展示的是<strong>内嵌演示数据</strong>，仅用于预览查验台功能，<strong>不是本机真实产物，不能作为验收依据</strong>。'+
+      '<div class="notice-sub">请手动选择本机 output/status.json 核验真实证据；或用本地 http 服务打开本页后点击「刷新查验」。'+(STATE.emptyReason?" "+esc(STATE.emptyReason):"")+'</div></div>'+
+      '<div class="notice-actions"><label class="btn btn-primary btn-sm" for="fileInput">选择 status.json 文件</label>'+
+      '<button class="btn btn-sm" data-load-demo>重载示例数据</button>'+
+      '<button class="btn btn-sm" data-clear-data>清空数据</button>'+
+      '<button class="btn btn-sm" data-retry-fetch>重试读取</button></div></div>';
+  }else if(s==="file"){
+    h='<div class="notice notice-info"><span class="notice-tag">手动载入</span>'+
+      '<div class="notice-text">已载入 <strong>'+esc(STATE.fileName)+'</strong>。自动读取当前不可用（file:// 限制或文件未生成），证据链接仍按 ../output/… 解析。'+
+      '<div class="notice-sub">如需自动刷新与轮询，请在项目根目录启动本地 http 服务后点击「刷新查验」。</div></div>'+
+      '<div class="notice-actions"><label class="btn btn-primary btn-sm" for="fileInput">选择其他文件</label>'+
+      '<button class="btn btn-sm" data-retry-fetch>重试自动读取</button>'+
+      '<button class="btn btn-sm" data-clear-data>清空数据</button></div></div>';
+  }else{
+    h='<div class="notice notice-info"><span class="notice-tag">空状态</span>'+
+      '<div class="notice-text"><strong>当前未载入任何数据</strong>。'+(STATE.emptyReason?esc(STATE.emptyReason)+" ":"")+
+      '请选择本机 output/status.json，或载入内嵌示例数据预览查验台。'+
+      '<div class="notice-sub">status.json 不存在、字段缺失或数组为空时，各分区会显示对应的空状态与操作指引，不会白屏。</div></div>'+
+      '<div class="notice-actions"><label class="btn btn-primary btn-sm" for="fileInput">选择 status.json 文件</label>'+
+      '<button class="btn btn-sm" data-load-demo>载入内嵌示例数据</button>'+
+      '<button class="btn btn-sm" data-retry-fetch>重试读取</button></div></div>';
+  }
+  bar.innerHTML=h; bar.hidden=false;
+}
+function renderGateAlert(d){
+  var bar=document.getElementById("gateAlertBar");
+  if(!d){ bar.hidden=true; return; }
+  var g=buildGates(d),p=0,r=0;
+  g.forEach(function(x){var k=String(x.status||"").toLowerCase(); if(k==="pending")p++; if(k==="rejected")r++;});
+  if(!p&&!r){ bar.hidden=true; return; }
+  bar.hidden=false;
+  bar.innerHTML='<div class="notice notice-alert"><span class="notice-tag">人工介入</span>'+
+    '<div class="notice-text">存在 <strong>'+p+'</strong> 个待确认门、<strong>'+r+'</strong> 个已驳回门。按 SPEC 第 0 节「人可随时介入」，流水线在 pending 门暂停，rejected 门需重跑对应 stage，请人工核验后处理。</div>'+
+    '<div class="notice-actions"><button class="btn btn-sm" data-goto-gates>查看人工确认门</button></div></div>';
+}
+function renderEmptyAll(){
+  var a=commonActions();
+  document.getElementById("overview").innerHTML=emptyBlock("总览暂无数据","未能取得 status.json 的总览字段。载入数据后将显示剧名、run_id、综合状态、符合度分数与成片预览。",a);
+  document.getElementById("directorPanel").innerHTML='<div class="panel-head"><h2>导演台 · 预演 / 质量门 / 逐镜质检</h2></div>'+emptyBlock("暂无导演台数据","载入 status.json 后显示五份创作文档、20 条确定性质量门、运动预算、生产预览指纹与逐镜质检重拍清单。",a);
+  document.getElementById("stagesPanel").innerHTML='<div class="panel-head"><h2>Stage 时间线</h2></div>'+emptyBlock("暂无 stage 数据","8 个 stage 的结构仍可查看，载入 status.json 后填充状态、耗时、产物与关联检查项。",a);
+  document.getElementById("rulesPanel").innerHTML='<div class="panel-head"><h2>规则明细</h2></div>'+emptyBlock("暂无检查项","checks 为空或缺失。载入数据后可按类别分组、筛选状态、搜索并逐条核对实测值。",a);
+  document.getElementById("gatesPanel").innerHTML='<div class="panel-head"><h2>人工确认门</h2></div>'+emptyBlock("暂无人工门数据","human_gates 为空或缺失。载入数据后展示 G1~G5 状态与驳回动作。",a);
+  document.getElementById("shotsPanel").innerHTML='<div class="panel-head"><h2>镜头卡片墙</h2></div>'+emptyBlock("暂无镜头数据","shots 为空或缺失。载入数据后展示每镜缩略图、字幕、状态与 issues。",a);
+}
+
+/* ---------- 顶部总览 ---------- */
+function renderOverview(d){
+  d=obj(d); var o=obj(d.overall),checks=arr(d.checks);
+  var total=num(o.total,checks.length),
+      passed=num(o.passed,checks.filter(function(c){return normStatus(obj(c).status)==="pass";}).length),
+      warned=num(o.warned,checks.filter(function(c){return normStatus(obj(c).status)==="warn";}).length),
+      failed=num(o.failed,checks.filter(function(c){return normStatus(obj(c).status)==="fail";}).length),
+      blocker=num(o.blocker_failed,checks.filter(function(c){var x=obj(c);return normStatus(x.status)==="fail"&&String(x.severity).toLowerCase()==="blocker";}).length);
+  var score=num(o.score,0);
+  var st=String(o.status||"").toUpperCase(), sc=stClass(o.status);
+  var cn=st==="PASS"?"综合通过":st==="WARN"?"需关注":st==="FAIL"?"综合不通过":"未评估";
+  var fv=String(d.final_video||"output/06_final/EP01.mp4").trim();
+
+  var h='<div class="ov-head">'+
+    '<div class="ov-title"><div class="ov-eyebrow">查验总览 · 唯一数据源 output/status.json</div>'+
+    '<h1>'+esc(txt(d.episode_title,"未命名剧集"))+'</h1>'+
+    '<div class="ov-meta">'+
+      '<span>run_id <b class="mono">'+esc(txt(d.run_id,"未提供"))+'</b></span>'+
+      '<span>生成时间 <b>'+esc(fmtTime(d.generated_at))+'</b></span>'+
+      '<span>模式 <b>'+esc(txt(d.mode,"未提供"))+'</b></span>'+
+      '<span>schema <b class="mono">'+esc(txt(d.schema_version,"未提供"))+'</b></span>'+
+      '<span>项目 <b>'+esc(txt(d.project,"未提供"))+'</b></span>'+
+    '</div></div>'+
+    '<div class="ov-status">'+
+      '<div class="ov-badge '+sc+'"><span class="ob-en">'+esc(txt(st,"—"))+'</span><span class="ob-cn">'+esc(cn)+'</span></div>'+
+      '<div class="ov-score"><span>'+esc(score)+'</span><small>符合度分数 / 100</small></div>'+
+    '</div></div>';
+
+  h+='<div class="ov-counts">'+
+    '<div class="cnt"><b>'+esc(total)+'</b><small>检查项总数</small></div>'+
+    '<div class="cnt pass"><b>'+esc(passed)+'</b><small>通过</small></div>'+
+    '<div class="cnt warn"><b>'+esc(warned)+'</b><small>警告</small></div>'+
+    '<div class="cnt fail"><b>'+esc(failed)+'</b><small>不通过</small></div>'+
+    '<div class="cnt blocker"><b>'+esc(blocker)+'</b><small>blocker 失败</small></div>'+
+  '</div>';
+
+  h+='<div class="ov-evidence-banner"><span class="eb-tag">提示</span><div class="eb-text">'+
+    '<strong>所有证据文件均在本机 output/ 目录，可随时打开核对</strong><br>'+
+    '下表中的 evidence、产物、缩略图路径均为项目根目录下的相对路径；点击即在新窗口打开原始文件，按「具体镜头 / 具体文件 / 具体规则 / 具体实测值」逐条比对。'+
+    '</div></div>';
+
+  h+='<div class="ov-video"><div class="ov-video-info">'+
+    '<div class="lbl">成片路径 final_video</div>'+pathItem(fv)+
+    '<div class="lbl">合规报告 report_md</div>'+pathItem(d.report_md)+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:3px">'+
+      '<button class="btn btn-sm" data-copy-all>复制全部证据路径</button>'+
+      '<a class="btn btn-sm" href="'+esc(webPath(fv))+'" target="_blank" rel="noopener">打开成片</a>'+
+    '</div>'+
+    '<div class="muted" style="font-size:10.5px;line-height:1.6">成片相对路径：<span class="mono">'+esc(webPath(fv))+'</span>；视频无法播放时说明文件尚未生成或路径不可用，请到 output/06_final/ 核对。</div>'+
+  '</div>'+
+  '<div class="ov-player"><div class="player-wrap">'+
+    '<video id="finalVideo" controls playsinline preload="metadata" src="'+esc(webPath(fv))+'"></video>'+
+    '<div class="player-ph" id="finalVideoPh" hidden>成片预览不可用<small>请到 output/06_final/ 打开 EP01.mp4</small></div>'+
+  '</div></div></div>';
+
+  var el=document.getElementById("overview"); el.innerHTML=h;
+  var v=document.getElementById("finalVideo"),ph=document.getElementById("finalVideoPh");
+  v.onerror=function(){v.style.display="none";ph.hidden=false;};
+  v.onloadedmetadata=function(){v.style.display="block";ph.hidden=true;};
+}
+
+/* ---------- 导演台：预演 / 确定性质量门 / 逐镜质检（v2） ---------- */
+function renderDirector(d){
+  d=obj(d);
+  var pv=obj(d.previs), dg=obj(d.director_gates), gs=obj(dg.summary);
+  var qc=obj(d.shot_qc), qs=obj(qc.summary);
+  var gates=arr(dg.gates), shots=arr(qc.shots);
+  var el=document.getElementById("directorPanel");
+  if(!gates.length && !shots.length && !pv.shot_count){
+    el.innerHTML='<div class="panel-head"><h2>导演台 · 预演 / 质量门 / 逐镜质检</h2></div>'+
+      emptyBlock("暂无导演台数据","本数据来自 v2 流水线。运行 python3 src/pipeline.py --input input/demo 后重新载入，即可查看 20 条确定性质量门与逐镜重拍清单。",commonActions());
+    return;
+  }
+  var mb=obj(pv.motion_budget);
+  var h='<div class="panel-head"><h2>导演台 · 预演 / 质量门 / 逐镜质检</h2>'+
+    '<span class="ph-meta">小云雀模式 × drama-skills / shuohao-skills</span></div>';
+  h+='<div class="gate-summary" style="flex-wrap:wrap">'+
+    '<span class="gs">预演 '+esc(txt(pv.shot_count,0))+' 镜 / '+esc(txt(pv.total_duration_s,0))+'s</span>'+
+    '<span class="gs">平均镜长 '+esc(txt(pv.avg_shot_s,0))+'s</span>'+
+    '<span class="gs">固定 '+esc(txt(mb.fixed_shots,0))+' 镜 · 运动 '+esc(txt(mb.moving_shots,0))+' 镜</span>'+
+    '<span class="gs">生产任务 '+esc(txt(pv.production_jobs,0))+' 镜</span>'+
+    '<span class="gs">质量门 '+esc(txt(gs.passed,0))+'通过 / '+esc(txt(gs.warned,0))+'待确认 / '+esc(txt(gs.failed,0))+'不通过</span>'+
+    '<span class="gs '+(qs.fail?"rejected":"")+'">逐镜质检 '+esc(txt(qs.pass,0))+'通过 / '+esc(txt(qs.warn,0))+'提示 / '+esc(txt(qs.fail,0))+'不通过</span>'+
+    '<span class="gs '+(qs.generated_video_shots?"approved":"pending")+'">真动态视频 '+esc(txt(qs.generated_video_shots,0))+' 镜 / 本地视差 '+esc(txt(qs.local_parallax_shots,0))+' 镜</span>'+
+    '</div>';
+  h+='<div style="padding:8px 14px;font-size:12px;line-height:1.8" class="muted">'+
+    '生产预览与指纹：'+pathItem("output/00_previs/production_preview.md","production_preview.md")+
+    ' <code>'+esc(txt(pv.fingerprint,"—").toString().slice(0,12))+'</code>；'+
+    '预演表：'+pathItem("output/00_previs/previs.md","previs.md")+'；'+
+    '五份创作文档：'+pathItem("output/00_creator_docs/剧本.md","剧本")+' · '+
+    pathItem("output/00_creator_docs/视觉设定.md","视觉设定")+' · '+
+    pathItem("output/00_creator_docs/分镜.md","分镜")+' · '+
+    pathItem("output/00_creator_docs/视频提示词.md","视频提示词")+' · '+
+    pathItem("output/00_creator_docs/剪辑单.md","剪辑单")+'</div>';
+  if(arr(qs.retake_list).length){
+    h+='<div class="notice notice-alert" style="margin:6px 14px 10px"><span class="notice-tag">建议重拍</span>'+
+      '<div class="notice-text">'+esc(arr(qs.retake_list).join("、"))+
+      '。替换 <code>input/&lt;项目&gt;/generated_video/&lt;Sxx&gt;.mp4</code> 后执行 <code>--retake Sxx --from 04_clips</code>，不会推翻整集。</div></div>';
+  }
+  h+='<details style="margin:6px 14px" open><summary style="cursor:pointer;font-weight:600;padding:6px 0">20 条确定性质量门（脚本判定，不调模型、不产生费用）</summary>'+
+    '<div style="overflow:auto;max-height:330px"><table class="tbl" style="width:100%;font-size:12px"><thead><tr>'+
+    '<th>门</th><th>名称</th><th>级别</th><th>状态</th><th>实测</th><th>期望</th><th>修复建议</th></tr></thead><tbody>';
+  if(!gates.length){ h+='<tr><td colspan="7" class="muted">暂无质量门数据</td></tr>'; }
+  gates.forEach(function(g){
+    g=obj(g); var k=String(g.status||"").toLowerCase();
+    h+='<tr'+(k==="fail"?' style="background:#fff3f3"':'')+'><td class="mono">'+esc(txt(g.id,"—"))+'</td>'+
+      '<td>'+esc(txt(g.name,"—"))+'</td><td>'+esc(txt(g.level,"—"))+'</td>'+
+      '<td><span class="badge '+stClass(g.status)+'">'+esc(stLabel(g.status))+'</span></td>'+
+      '<td>'+esc(String(txt(g.actual,"—")).slice(0,110))+'</td>'+
+      '<td>'+esc(String(txt(g.expected,"—")).slice(0,70))+'</td>'+
+      '<td>'+esc(String(txt(g.fix_hint,"—")).slice(0,90))+'</td></tr>';
+  });
+  h+='</tbody></table></div></details>';
+  h+='<details style="margin:6px 14px 14px" open><summary style="cursor:pointer;font-weight:600;padding:6px 0">逐镜质检与重拍清单（客观测量，画面级判定仍留给人工）</summary>'+
+    '<div style="overflow:auto;max-height:330px"><table class="tbl" style="width:100%;font-size:12px"><thead><tr>'+
+    '<th>镜</th><th>通道</th><th>状态</th><th>运动量</th><th>接镜亮度跳变</th><th>字幕像素</th><th>问题 / 建议</th><th>证据</th></tr></thead><tbody>';
+  if(!shots.length){ h+='<tr><td colspan="8" class="muted">暂无逐镜质检数据</td></tr>'; }
+  shots.forEach(function(r){
+    r=obj(r); var m=obj(r.metrics), k=String(r.status||"").toLowerCase();
+    h+='<tr'+(k==="fail"?' style="background:#fff3f3"':'')+'><td class="mono">'+esc(txt(r.shot_id,"—"))+'</td>'+
+      '<td>'+esc(txt(r.channel,"—"))+'</td>'+
+      '<td><span class="badge '+stClass(r.status)+'">'+esc(stLabel(r.status))+'</span></td>'+
+      '<td>'+esc(txt(m.motion,"—"))+'</td><td>'+esc(txt(m.luma_jump_with_prev,"—"))+'</td>'+
+      '<td>'+esc(txt(m.subtitle_pixels,"—"))+'</td>'+
+      '<td>'+esc((arr(r.issues).join("；")||"无")+" → "+String(txt(r.retake_hint,"—")).slice(0,70))+'</td>'+
+      '<td>'+pathItem(r.evidence,"抽帧")+'</td></tr>';
+  });
+  h+='</tbody></table></div></details>';
+  el.innerHTML=h;
+}
+
+/* ---------- 左侧 Stage 时间线 ---------- */
+function renderStages(d){
+  d=obj(d); var stages=arr(d.stages),checks=arr(d.checks),gates=buildGates(d);
+  var byId={}; stages.forEach(function(s){if(s&&s.id)byId[s.id]=s;});
+  var head='<div class="panel-head"><h2>Stage 时间线</h2><div style="display:flex;gap:6px;align-items:center">'+
+    '<span class="ph-meta">'+stages.length+' / 8 有数据</span>'+
+    '<button class="btn btn-sm" data-expand="1">展开全部</button>'+
+    '<button class="btn btn-sm" data-expand="0">收起全部</button></div></div>';
+  var body='<div class="stage-list" id="stageList">';
+  STAGE_DEFS.forEach(function(def){
+    var s=obj(byId[def.id]),status=s.status||"unknown",sc=stClass(status);
+    var gs=gateStatusFor(def,byId,gates);
+    var autoOpen=(normStatus(status)==="fail"||normStatus(status)==="warn"||gs==="pending"||gs==="rejected");
+    var arts=arr(s.artifacts);
+    var ids={}; arr(s.checks).forEach(function(id){if(id)ids[id]=1;});
+    checks.forEach(function(c){var o=obj(c);if(o.stage===def.id&&o.id)ids[o.id]=1;});
+    var rel=checks.filter(function(c){return obj(c).id&&ids[obj(c).id];});
+
+    body+='<details class="stage" '+(autoOpen?"open":"")+' data-stage="'+esc(def.id)+'">'+
+      '<summary><span class="tl-dot '+sc+'"></span><div class="stage-line">'+
+        '<span class="stage-idx mono">'+esc(def.id)+'</span>'+
+        '<div class="stage-main"><div class="stage-name">'+esc(def.name)+'</div>'+
+          '<div class="stage-sub">'+esc(txt(s.owner,def.owner))+' · 耗时 '+esc(num(s.duration_s,"—"))+' s</div></div>'+
+        '<div class="stage-tags"><span class="badge '+sc+'">'+esc(stLabel(status))+'</span>'+
+          '<span class="gate-chip '+(gs?stClass(gs):"")+'">'+(gs?("门 "+esc(stLabel(gs))):"无门")+'</span></div>'+
+        '<span class="chev"></span>'+
+      '</div></summary>'+
+      '<div class="stage-body">'+
+        '<div class="sb-row"><span class="sb-lbl">摘要</span><span>'+esc(txt(s.summary,"未提供摘要"))+'</span></div>'+
+        '<div class="sb-row"><span class="sb-lbl">负责 Agent</span><span>'+esc(txt(s.owner,def.owner))+'</span></div>'+
+        '<div class="sb-row"><span class="sb-lbl">耗时</span><span class="mono">'+esc(num(s.duration_s,"—"))+' s</span></div>'+
+        '<div class="sb-row"><span class="sb-lbl">人工门</span><span>'+
+          (gs?('<span class="badge '+stClass(gs)+'">'+esc(txt(gs,"—"))+' · '+esc(stLabel(gs))+'</span>'):'<span class="muted">该 stage 无人工确认门</span>')+
+        '</span></div>';
+    if(s.gate){
+      body+='<div class="sb-row"><span class="sb-lbl">门备注</span><span>'+esc(txt(obj(s.gate).note,"无"))+' · 复核人 '+esc(txt(obj(s.gate).reviewer,"未记录"))+'</span></div>';
+    }
+    body+='<div class="sb-sec"><div class="sb-sec-h">产物文件 <span class="count">'+arts.length+'</span></div>';
+    if(!arts.length){
+      body+='<div class="muted" style="font-size:11px;padding:4px 0">该 stage 未记录产物文件。请确认流水线已写出产物并在 status.json 的 artifacts 中登记。</div>';
+    }else{
+      body+='<ul class="art-list">';
+      arts.forEach(function(a){
+        var o=obj(a);
+        body+='<li class="art-item"><div class="art-head"><span class="type-tag">'+esc(txt(o.type,"file"))+'</span>'+
+          '<span class="art-label">'+esc(txt(o.label,"未命名产物"))+'</span></div>'+pathItem(o.path)+'</li>';
+      });
+      body+='</ul>';
+    }
+    body+='</div>';
+    body+='<div class="sb-sec"><div class="sb-sec-h">关联检查项 <span class="count">'+rel.length+'</span></div>';
+    if(!rel.length){
+      body+='<div class="muted" style="font-size:11px;padding:4px 0">该 stage 未关联检查项。</div>';
+    }else{
+      body+='<div class="rel-checks">';
+      rel.forEach(function(c){var o=obj(c);
+        body+='<span class="rel-chip '+stClass(o.status)+'" data-jump="'+esc(o.id)+'" title="跳转到规则明细">'+esc(o.id)+' '+esc(txt(o.name,""))+'</span>';
+      });
+      body+='</div>';
+    }
+    body+='</div></div></details>';
+  });
+  body+='</div>';
+  document.getElementById("stagesPanel").innerHTML=head+body;
+}
+
+/* ---------- 中央规则明细 ---------- */
+function renderRulesPanel(d){
+  d=obj(d); var all=arr(d.checks).map(obj),f=STATE.filters;
+  var cats=[]; all.forEach(function(c){var x=String(c.category||"未分类"); if(cats.indexOf(x)<0)cats.push(x);});
+  var counts={pass:0,warn:0,fail:0,skipped:0,other:0};
+  all.forEach(function(c){counts[normStatus(c.status)]++;});
+
+  var chips=[["","全部",all.length],["pass","通过",counts.pass],["warn","警告",counts.warn],["fail","不通过",counts.fail],["skipped","跳过",counts.skipped+counts.other]];
+  var chipHtml=chips.map(function(x){
+    var on=f.status===x[0];
+    var cls="chip"+(on?(x[0]==="fail"?" on on-fail":" on"):"");
+    return '<button class="'+cls+'" data-st="'+x[0]+'">'+x[1]+' '+x[2]+'</button>';
+  }).join("");
+
+  var opts='<option value="">全部类别</option>'+cats.map(function(c){return '<option value="'+esc(c)+'">'+esc(c)+'</option>';}).join("");
+
+  var h='<div class="panel-head"><h2>规则明细</h2><span class="ph-meta">按 category 分组 · 逐条可核验</span></div>'+
+    '<div class="toolbar">'+
+      '<div class="filter-row"><span class="fl-lbl">状态</span><div class="chips" id="statusFilter">'+chipHtml+'</div></div>'+
+      '<div class="filter-row"><span class="fl-lbl">类别</span><select class="sel" id="categoryFilter">'+opts+'</select>'+
+        '<span class="fl-lbl">搜索</span><input class="inp" id="kw" type="search" placeholder="搜索 id / 规则 / 名称 / 实测值 / 依据 / 修复建议" value="'+esc(f.kw)+'">'+
+        '<label class="chk"><input type="checkbox" id="failTop"'+(f.failTop?" checked":"")+'> 不通过置顶</label>'+
+        '<button class="btn btn-sm" data-copy-all>复制全部证据路径</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="rules-summary" id="rulesSummary"></div>'+
+    '<div class="rules-list" id="rulesList"></div>';
+  document.getElementById("rulesPanel").innerHTML=h;
+
+  document.getElementById("categoryFilter").value=f.category;
+  document.getElementById("statusFilter").addEventListener("click",function(e){
+    var b=e.target.closest("[data-st]"); if(!b)return;
+    STATE.filters.status=b.getAttribute("data-st"); renderRulesPanel(STATE.data);
+  });
+  document.getElementById("categoryFilter").addEventListener("change",function(e){
+    STATE.filters.category=e.target.value; renderRulesList(STATE.data);
+  });
+  document.getElementById("kw").addEventListener("input",function(e){
+    STATE.filters.kw=e.target.value; renderRulesList(STATE.data);
+  });
+  document.getElementById("failTop").addEventListener("change",function(e){
+    STATE.filters.failTop=e.target.checked; renderRulesList(STATE.data);
+  });
+  document.querySelector('#rulesPanel [data-copy-all]').addEventListener("click",function(e){
+    copyText(allEvidencePaths(STATE.data).join("\n"),e.currentTarget);
+  });
+  renderRulesList(d);
+}
+function renderRulesList(d){
+  var list=document.getElementById("rulesList"),sum=document.getElementById("rulesSummary");
+  if(!list) return;
+  var all=arr(obj(d).checks).map(obj),f=STATE.filters;
+  if(!all.length){
+    sum.innerHTML="共 0 项";
+    list.innerHTML=emptyBlock("暂无检查项数据","status.json 的 checks 数组为空或缺失。请确认流水线已完成 07_reports 验收阶段，再点击「刷新查验」或手动载入。",commonActions());
+    return;
+  }
+  var kw=f.kw.trim().toLowerCase();
+  var visible=all.filter(function(c){
+    if(f.status && normStatus(c.status)!==f.status) return false;
+    var cat=String(c.category||"未分类");
+    if(f.category && cat!==f.category) return false;
+    if(kw){
+      var hay=[c.id,c.rule_id,c.name,c.category,c.severity,c.status,c.expected,c.actual,c.evidence,c.source,c.how_to_verify,c.fix_hint,c.stage]
+        .map(function(x){return x==null?"":String(x);}).join(" ").toLowerCase();
+      if(hay.indexOf(kw)<0) return false;
+    }
+    return true;
+  });
+  var groups=[],gmap={};
+  visible.forEach(function(c){
+    var cat=String(c.category||"未分类");
+    if(!gmap[cat]){gmap[cat]={name:cat,items:[]};groups.push(gmap[cat]);}
+    gmap[cat].items.push(c);
+  });
+  if(f.failTop){
+    var grank=function(g){return Math.min.apply(null,g.items.map(function(c){return rank(c.status);}).concat([9]));};
+    groups.sort(function(a,b){return grank(a)-grank(b);});
+    groups.forEach(function(g){g.items.sort(function(a,b){return rank(a.status)-rank(b.status);});});
+  }
+  var nf=visible.filter(function(c){return normStatus(c.status)==="fail";}).length;
+  sum.innerHTML='<span>共 <b>'+all.length+'</b> 项，当前显示 <b>'+visible.length+'</b> 项'+
+    (nf?'，其中 <b style="color:var(--red)">'+nf+'</b> 项不通过':'')+
+    (f.failTop?' · 不通过项已置顶并高亮':'')+'</span>'+
+    '<button class="btn btn-sm" data-clear-filters>清除筛选</button>';
+
+  if(!visible.length){
+    list.innerHTML=emptyBlock("没有符合条件的检查项","请调整状态 / 类别筛选，或清空关键字后重试。",'<div class="empty-actions"><button class="btn" data-clear-filters>清除全部筛选</button></div>');
+    return;
+  }
+  var html="";
+  groups.forEach(function(g){
+    var a=0,b=0,c=0;
+    g.items.forEach(function(x){var n=normStatus(x.status);if(n==="pass")a++;else if(n==="warn")b++;else if(n==="fail")c++;});
+    html+='<section class="cat-group"><div class="cat-head"><span class="cat-name">'+esc(g.name)+'</span>'+
+      '<span class="cat-count">'+g.items.length+' 项 · 通过 '+a+' / 警告 '+b+' / 不通过 '+c+'</span></div><div class="cat-items">';
+    g.items.forEach(function(x){ html+=checkHtml(x); });
+    html+='</div></section>';
+  });
+  list.innerHTML=html;
+}
+function checkHtml(c){
+  var st=normStatus(c.status),isFail=st==="fail";
+  var mismatch=isFail||String(c.expected)!==String(c.actual);
+  var h='<article class="check '+stClass(c.status)+(isFail?" is-fail":"")+'" id="check-'+esc(c.id||"")+'">'+
+    '<div class="ck-top">'+
+      '<span class="ck-id mono">'+esc(txt(c.id,"—"))+'</span>'+
+      '<span class="ck-rule mono">'+esc(txt(c.rule_id,"—"))+'</span>'+
+      '<span class="ck-name">'+esc(txt(c.name,"未命名检查项"))+'</span>'+
+      '<span class="badge '+sevClass(c.severity)+'">'+esc(sevLabel(c.severity))+'</span>'+
+      '<span class="badge '+stClass(c.status)+'">'+esc(stLabel(c.status))+'</span>'+
+    '</div>'+
+    '<div class="ck-cmp">'+
+      '<div class="cmp-col"><span class="ck-lbl">期望 expected</span><span class="cmp-val mono">'+esc(txt(c.expected,"未提供"))+'</span></div>'+
+      '<div class="cmp-arrow">→</div>'+
+      '<div class="cmp-col'+(mismatch?" actual-fail":"")+'"><span class="ck-lbl">实测 actual</span><span class="cmp-val mono">'+esc(txt(c.actual,"未提供"))+'</span></div>'+
+    '</div>'+
+    '<div class="ck-detail">'+
+      '<div><span class="ck-lbl">证据 evidence</span><span class="val">'+pathItem(c.evidence)+'</span></div>'+
+      '<div><span class="ck-lbl">所属 stage</span><span class="val mono">'+esc(txt(c.stage,"未提供"))+'</span></div>'+
+      '<div><span class="ck-lbl">依据来源 source</span><span class="val">'+esc(txt(c.source,"未提供"))+'</span></div>'+
+      '<div><span class="ck-lbl">人工核验 how_to_verify</span><span class="val">'+esc(txt(c.how_to_verify,"未提供"))+'</span></div>'+
+      '<div class="wide"><span class="ck-lbl">修复建议 fix_hint</span><span class="val'+(isFail?" hint":"")+'">'+esc(txt(c.fix_hint,"未提供"))+'</span></div>'+
+    '</div>'+
+  '</article>';
+  return h;
+}
+
+/* ---------- 人工确认门 ---------- */
+function renderGates(d){
+  d=obj(d); var g=buildGates(d);
+  var p=0,r=0,a=0,o=0;
+  g.forEach(function(x){var k=String(x.status||"").toLowerCase();
+    if(k==="pending")p++;else if(k==="rejected")r++;else if(k==="approved")a++;else o++;});
+  var head='<div class="panel-head"><h2>人工确认门</h2><span class="ph-meta">'+g.length+' 道门</span></div>'+
+    '<div class="gate-summary">'+
+      '<span class="gs pending">待确认 '+p+'</span>'+
+      '<span class="gs rejected">已驳回 '+r+'</span>'+
+      '<span class="gs approved">已通过 '+a+'</span>'+
+      (o?'<span class="gs">未记录 '+o+'</span>':'')+
+    '</div>';
+  var body;
+  if(!g.length){
+    body='<div class="gate-list">'+emptyBlock("暂无人工门数据","human_gates 与 stage.gate 均未提供。",commonActions())+'</div>';
+  }else{
+    body='<div class="gate-list" id="gateList">';
+    g.forEach(function(x){
+      var k=String(x.status||"").toLowerCase(),sc=stClass(x.status);
+      var cls=(k==="pending"?" is-pending":k==="rejected"?" is-rejected":"");
+      body+='<article class="gate'+cls+'" id="gate-'+esc(x.id||"")+'">'+
+        '<div class="gate-top"><span class="gate-id mono">'+esc(txt(x.id,"—"))+'</span>'+
+          '<span class="gate-name">'+esc(txt(x.name,"未命名确认门"))+'</span>'+
+          '<span class="badge '+sc+'">'+esc(stLabel(x.status))+'</span></div>'+
+        '<div class="gate-meta">所属 stage <span class="mono">'+esc(txt(x.stage,"未提供"))+'</span>'+
+          (x.reviewer?' · 复核人 '+esc(x.reviewer):'')+'</div>';
+      if(k==="pending"){
+        body+='<div class="gate-notice pending">待人工确认 · 流水线已在此门暂停，需人工核验后放行。</div>';
+      }else if(k==="rejected"){
+        body+='<div class="gate-notice rejected">已驳回 · 该 stage 需按驳回动作重跑，流水线据此重做此环节。</div>';
+      }
+      body+='<div class="gate-fields">'+
+        '<div class="gf"><span class="gf-lbl">备注 note</span><span class="gf-val">'+esc(txt(x.note,"无"))+'</span></div>'+
+        '<div class="gf"><span class="gf-lbl">人工核验 how_to_verify</span><span class="gf-val">'+esc(txt(x.how_to_verify,"未提供"))+'</span></div>'+
+        '<div class="gf"><span class="gf-lbl">驳回动作 reject_action</span><span class="gf-val'+(k==="rejected"?" reject":"")+'">'+esc(txt(x.reject_action,"未提供"))+'</span></div>'+
+      '</div></article>';
+    });
+    body+='</div>';
+  }
+  document.getElementById("gatesPanel").innerHTML=head+body;
+}
+
+/* ---------- 镜头卡片墙 ---------- */
+function renderShots(d){
+  d=obj(d); var shots=arr(d.shots).map(obj);
+  var a=0,b=0,c=0;
+  shots.forEach(function(s){var n=normStatus(s.status);if(n==="pass")a++;else if(n==="warn")b++;else if(n==="fail")c++;});
+  var head='<div class="panel-head"><h2>镜头卡片墙</h2><span class="ph-meta">'+shots.length+' 镜 · 通过 '+a+' / 警告 '+b+' / 不通过 '+c+'</span></div>';
+  var body;
+  if(!shots.length){
+    body='<div class="shots-list">'+emptyBlock("暂无镜头数据","shots 数组为空或缺失。载入数据后展示每镜缩略图、字幕、状态与 issues；点击卡片可播放该镜 clip。",commonActions())+'</div>';
+  }else{
+    body='<div class="shots-list"><div class="shot-grid">';
+    shots.forEach(function(s){
+      var id=txt(s.id,"—"),sc=stClass(s.status);
+      var frame=String(s.frame||("output/03_frames/"+id+".png")).trim();
+      var clip=String(s.clip||("output/04_clips/"+id+".mp4")).trim();
+      var issues=arr(s.issues);
+      var issueHtml=issues.length?issues.map(function(i){return '<span class="issue" title="'+esc(i)+'">'+esc(i)+'</span>';}).join(""):'<span class="shot-ok">无 issues</span>';
+      body+='<button type="button" class="shot-card '+sc+'" data-shot="'+esc(id)+'" title="点击播放该镜 clip">'+
+        '<div class="thumb">'+
+          '<img src="'+esc(webPath(frame))+'" alt="'+esc(id)+' 缩略图" loading="lazy" onerror="imgFail(this)">'+
+          '<div class="thumb-ph" hidden><span>'+esc(id)+'</span><small>无预览</small></div>'+
+        '</div>'+
+        '<div class="shot-info">'+
+          '<div class="shot-h"><span class="mono">'+esc(id)+'</span><span class="badge '+sc+'">'+esc(stLabel(s.status))+'</span></div>'+
+          '<div class="shot-dur">时长 '+esc(num(s.duration_s,"—"))+' s</div>'+
+          '<div class="shot-sub">'+esc(txt(s.subtitle,"无字幕"))+'</div>'+
+          '<div class="shot-issues">'+issueHtml+'</div>'+
+        '</div>'+
+      '</button>';
+    });
+    body+='</div></div>';
+  }
+  document.getElementById("shotsPanel").innerHTML=head+body;
+}
+function imgFail(img){
+  img.style.display="none";
+  var ph=img.parentNode.querySelector(".thumb-ph");
+  if(ph) ph.hidden=false;
+}
+
+/* ---------- 镜头弹层 ---------- */
+function openShot(id){
+  var d=obj(STATE.data),shot=null;
+  arr(d.shots).forEach(function(s){if(String(obj(s).id)===String(id))shot=obj(s);});
+  if(!shot){ toast("未找到镜头 "+id); return; }
+  var clip=String(shot.clip||("output/04_clips/"+id+".mp4")).trim();
+  var frame=String(shot.frame||("output/03_frames/"+id+".png")).trim();
+  document.getElementById("modalTitle").textContent="镜头 "+id+" · clip 预览";
+  var v=document.getElementById("modalVideo"),ph=document.getElementById("modalVideoPh");
+  v.style.display="block"; ph.hidden=true;
+  v.onerror=function(){v.style.display="none";ph.hidden=false;};
+  v.onloadedmetadata=function(){v.style.display="block";ph.hidden=true;};
+  v.src=webPath(clip);
+  var issues=arr(shot.issues);
+  document.getElementById("modalInfo").innerHTML=
+    '<div><span class="lbl">状态 / 时长</span> <span class="badge '+stClass(shot.status)+'">'+esc(stLabel(shot.status))+'</span> · '+esc(num(shot.duration_s,"—"))+' s</div>'+
+    '<div><span class="lbl">字幕</span><div>'+esc(txt(shot.subtitle,"无字幕"))+'</div></div>'+
+    '<div><span class="lbl">issues</span><div>'+(issues.length?issues.map(function(i){return '<span class="issue" style="white-space:normal">'+esc(i)+'</span>';}).join(" "):'<span class="shot-ok">无 issues</span>')+'</div></div>'+
+    '<div><span class="lbl">该镜 clip</span>'+pathItem(clip)+'</div>'+
+    '<div><span class="lbl">该镜真人帧</span>'+pathItem(frame)+
+      '<div style="margin-top:6px"><img class="modal-frame" src="'+esc(webPath(frame))+'" alt="'+esc(id)+' 帧" onerror="this.style.display=\'none\'"></div></div>'+
+    '<div><span class="lbl">音频</span>'+pathItem(shot.audio)+'</div>';
+  document.getElementById("mediaModal").hidden=false;
+  try{ v.play().catch(function(){}); }catch(e){}
+}
+function closeModal(){
+  var m=document.getElementById("mediaModal"); m.hidden=true;
+  var v=document.getElementById("modalVideo"); try{v.pause();}catch(e){}
+  v.removeAttribute("src"); v.load();
+}
+function jumpTo(id){
+  var el=document.getElementById("check-"+id);
+  if(!el){ toast("检查项 "+id+" 不在当前筛选结果中，请先清除筛选"); return; }
+  el.scrollIntoView({behavior:"smooth",block:"center"});
+  el.classList.add("flash");
+  setTimeout(function(){el.classList.remove("flash");},1700);
+}
+
+/* ============================================================
+   全局事件（委托）
+   ============================================================ */
+function attachGlobalEvents(){
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    var c=t.closest("[data-copy]");
+    if(c){ copyText(c.getAttribute("data-copy"),c); return; }
+    if(t.closest("[data-copy-all]")){ copyText(allEvidencePaths(STATE.data).join("\n"),t.closest("[data-copy-all]")); return; }
+    if(t.closest("[data-load-demo]")){ applyDemo(); return; }
+    if(t.closest("[data-clear-data]")){ clearData(); return; }
+    if(t.closest("[data-retry-fetch]")){ loadFromFetch(false).catch(onFetchFail); return; }
+    if(t.closest("[data-clear-filters]")){
+      STATE.filters.status=""; STATE.filters.category=""; STATE.filters.kw="";
+      renderRulesPanel(STATE.data); return;
+    }
+    if(t.closest("[data-goto-gates]")){
+      var g=document.getElementById("gatesPanel"); if(g)g.scrollIntoView({behavior:"smooth",block:"start"}); return;
+    }
+    if(t.closest("[data-close]")){ closeModal(); return; }
+    var ex=t.closest("[data-expand]");
+    if(ex){
+      var open=ex.getAttribute("data-expand")==="1";
+      document.querySelectorAll("#stageList details.stage").forEach(function(d){d.open=open;});
+      return;
+    }
+    var j=t.closest("[data-jump]");
+    if(j){ jumpTo(j.getAttribute("data-jump")); return; }
+    var sh=t.closest("[data-shot]");
+    if(sh){ openShot(sh.getAttribute("data-shot")); return; }
+  });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape")closeModal(); });
+
+  document.getElementById("refreshBtn").addEventListener("click",function(){
+    loadFromFetch(false).catch(onFetchFail);
+  });
+  document.getElementById("fileInput").addEventListener("change",function(e){
+    var f=e.target.files&&e.target.files[0];
+    if(!f)return;
+    var rd=new FileReader();
+    rd.onload=function(ev){
+      try{
+        var d=JSON.parse(ev.target.result);
+        STATE.data=d; STATE.source="file"; STATE.fileName=f.name; STATE.lastLoad=new Date();
+        STATE.fetchOk=false; STATE.raw=String(ev.target.result);
+        renderAll(); toast("已载入 "+f.name);
+      }catch(err){ toast("解析失败：所选文件不是合法 JSON"); }
+    };
+    rd.onerror=function(){ toast("文件读取失败，请重试"); };
+    rd.readAsText(f,"utf-8");
+    e.target.value="";
+  });
+  document.getElementById("pollToggle").addEventListener("change",function(e){ setPolling(e.target.checked); });
+  document.getElementById("pollInterval").addEventListener("change",function(){
+    if(document.getElementById("pollToggle").checked) setPolling(true);
+  });
+}
+
+/* ============================================================
+   启动：优先 fetch → 本机 data.js 真实快照 → 内嵌演示数据（仅当快照也不存在）
+   ============================================================ */
+attachGlobalEvents();
+loadFromFetch(true).catch(onFetchFail);
+</script>
+</body>
+</html>

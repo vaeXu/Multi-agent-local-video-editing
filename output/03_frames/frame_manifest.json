@@ -1,0 +1,98 @@
+[
+  {
+    "shot_id": "S01",
+    "frame": "output/03_frames/S01.png",
+    "source_kind": "真人参考帧转绘",
+    "source_frame": "frames/S01.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S02",
+    "frame": "output/03_frames/S02.png",
+    "source_kind": "真人参考帧转绘",
+    "source_frame": "frames/S02.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.06/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S03",
+    "frame": "output/03_frames/S03.png",
+    "source_kind": "真人参考帧转绘",
+    "source_frame": "frames/S03.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S04",
+    "frame": "output/03_frames/S04.png",
+    "source_kind": "同风格底图派生",
+    "source_frame": "frames/S02.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.24/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S05",
+    "frame": "output/03_frames/S05.png",
+    "source_kind": "真人参考帧转绘",
+    "source_frame": "frames/S05.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S06",
+    "frame": "output/03_frames/S06.png",
+    "source_kind": "同风格底图派生",
+    "source_frame": "frames/S03.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.2/flip",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S07",
+    "frame": "output/03_frames/S07.png",
+    "source_kind": "真人参考帧转绘",
+    "source_frame": "frames/S07.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S08",
+    "frame": "output/03_frames/S08.png",
+    "source_kind": "同风格底图派生",
+    "source_frame": "frames/S01.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/flip",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S09",
+    "frame": "output/03_frames/S09.png",
+    "source_kind": "同风格底图派生",
+    "source_frame": "frames/S05.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → lower/1.28/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S10",
+    "frame": "output/03_frames/S10.png",
+    "source_kind": "同风格底图派生",
+    "source_frame": "frames/S03.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → upper/1.12/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S11",
+    "frame": "output/03_frames/S11.png",
+    "source_kind": "真人参考帧转绘",
+    "source_frame": "frames/S11.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → center/1.0/none",
+    "resolution": "1080x1920"
+  },
+  {
+    "shot_id": "S12",
+    "frame": "output/03_frames/S12.png",
+    "source_kind": "同风格底图派生",
+    "source_frame": "frames/S07.jpg",
+    "transform": "去水印裁切 → 9:16 → 统一LUT转绘 → lower/1.1/dark",
+    "resolution": "1080x1920"
+  }
+]

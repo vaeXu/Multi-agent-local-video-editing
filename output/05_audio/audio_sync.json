@@ -1,0 +1,348 @@
+{
+  "per_shot": [
+    {
+      "shot_id": "S01",
+      "speaker": "苏晴",
+      "text": "不是我签的，是你代签的。",
+      "voice": "Sandy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "拍桌声",
+            "at_s": 0.05
+          },
+          {
+            "name": "纸响",
+            "at_s": 0.6
+          }
+        ],
+        "peak": 0.213
+      }
+    },
+    {
+      "shot_id": "S02",
+      "speaker": "林昭",
+      "text": "会议室有监控，调出来。",
+      "voice": "Eddy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "椅子轻响",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.234
+      }
+    },
+    {
+      "shot_id": "S03",
+      "speaker": "苏晴",
+      "text": "昨晚九点，只有你进过。",
+      "voice": "Sandy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "手机震动",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.148
+      }
+    },
+    {
+      "shot_id": "S04",
+      "speaker": "林昭",
+      "text": "九点零七，灯是灭的。",
+      "voice": "Eddy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 7,
+      "mix": {
+        "duration_s": 7.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "指节叩桌声",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.211
+      }
+    },
+    {
+      "shot_id": "S05",
+      "speaker": "林昭",
+      "text": "纸下面，还有一层压痕。",
+      "voice": "Eddy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 5,
+      "mix": {
+        "duration_s": 5.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "纸声",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.217
+      }
+    },
+    {
+      "shot_id": "S06",
+      "speaker": "苏晴",
+      "text": "压痕……什么意思？",
+      "voice": "Sandy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "空调声",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.068
+      }
+    },
+    {
+      "shot_id": "S07",
+      "speaker": "林昭",
+      "text": "有人照着，描过一遍。",
+      "voice": "Eddy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "窗帘轻响",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.065
+      }
+    },
+    {
+      "shot_id": "S08",
+      "speaker": "苏晴",
+      "text": "谁？",
+      "voice": "Sandy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "心跳声",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.238
+      }
+    },
+    {
+      "shot_id": "S09",
+      "speaker": "林昭",
+      "text": "章号，不在这层楼。",
+      "voice": "Eddy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 7,
+      "mix": {
+        "duration_s": 7.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "扫码提示音",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.225
+      }
+    },
+    {
+      "shot_id": "S10",
+      "speaker": "苏晴",
+      "text": "这文件……是塞给我的。",
+      "voice": "Sandy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "呼吸声",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.238
+      }
+    },
+    {
+      "shot_id": "S11",
+      "speaker": "林昭",
+      "text": "我不是来被审的。",
+      "voice": "Eddy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "皮夹开合声",
+            "at_s": 0.05
+          }
+        ],
+        "peak": 0.209
+      }
+    },
+    {
+      "shot_id": "S12",
+      "speaker": "林昭",
+      "text": "这页，只是第一份。",
+      "voice": "Eddy",
+      "tts_duration_s": 0.016,
+      "shot_duration_s": 6,
+      "mix": {
+        "duration_s": 6.0,
+        "voice_offset_s": 0.25,
+        "voice_len_s": 0.016,
+        "sfx": [
+          {
+            "name": "手机震动",
+            "at_s": 0.05
+          },
+          {
+            "name": "门响",
+            "at_s": 0.6
+          }
+        ],
+        "peak": 0.211
+      }
+    }
+  ],
+  "voice_track": {
+    "duration_s": 73.0,
+    "timeline": [
+      {
+        "shot_id": "S01",
+        "start_s": 0.0,
+        "end_s": 6.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S02",
+        "start_s": 6.0,
+        "end_s": 12.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S03",
+        "start_s": 12.0,
+        "end_s": 18.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S04",
+        "start_s": 18.0,
+        "end_s": 25.0,
+        "expected_s": 7.0,
+        "audio_samples": 308700
+      },
+      {
+        "shot_id": "S05",
+        "start_s": 25.0,
+        "end_s": 30.0,
+        "expected_s": 5.0,
+        "audio_samples": 220500
+      },
+      {
+        "shot_id": "S06",
+        "start_s": 30.0,
+        "end_s": 36.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S07",
+        "start_s": 36.0,
+        "end_s": 42.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S08",
+        "start_s": 42.0,
+        "end_s": 48.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S09",
+        "start_s": 48.0,
+        "end_s": 55.0,
+        "expected_s": 7.0,
+        "audio_samples": 308700
+      },
+      {
+        "shot_id": "S10",
+        "start_s": 55.0,
+        "end_s": 61.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S11",
+        "start_s": 61.0,
+        "end_s": 67.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      },
+      {
+        "shot_id": "S12",
+        "start_s": 67.0,
+        "end_s": 73.0,
+        "expected_s": 6.0,
+        "audio_samples": 264600
+      }
+    ],
+    "max_drift_s": 0.0
+  },
+  "bgm": {
+    "duration_s": 73.0,
+    "engine": "numpy local synth",
+    "license": "算法合成，无第三方素材"
+  },
+  "sync_method": "每镜音轨长度强制等于 duration_s，首尾相接后与 concat 视频时间轴逐帧对齐"
+}

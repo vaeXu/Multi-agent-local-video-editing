@@ -1,0 +1,257 @@
+{
+  "schema_version": "2.0",
+  "episode_id": "EP01",
+  "mode": "xiaoyunque",
+  "style_anchor": {
+    "name": "国产悬疑冷调半写实厚涂漫画",
+    "surface": "cold grey-teal cinematic comic, flat colour blocks, clean ink lines, fine halftone",
+    "palette": "低饱和青灰 + 冷白 LED + 落地窗阴天漫射侧光",
+    "negative": "warm filter, anime big eyes, extra fingers, face morph, costume change, text, subtitle, logo, watermark, black bars, violent shake"
+  },
+  "continuity_locks": [
+    {
+      "id": "LOCK-LIN-SUIT",
+      "name": "林昭深灰立领三件套",
+      "surface": "深灰立领三件套西装",
+      "surface_en": "dark-grey stand-collar three-piece suit with silver paperclip lapel pin",
+      "scope": ["S02", "S04", "S07", "S08", "S11", "S12"],
+      "reason": "跨镜不随剧情改变的服装主色形制，观众一眼可辨"
+    },
+    {
+      "id": "LOCK-LIN-GLASSES",
+      "name": "林昭银色细框眼镜与左眉尾浅疤",
+      "surface": "银色细框",
+      "surface_en": "thin silver-framed glasses and a faint scar at the left brow tail",
+      "scope": ["S02", "S04", "S07", "S08"],
+      "reason": "五官级刚性锚点，跨镜漂移最易被平台判为换脸"
+    },
+    {
+      "id": "LOCK-SU-HAIR",
+      "name": "苏晴齐肩栗棕内扣发与右耳单只珍珠耳钉",
+      "surface": "齐肩栗棕",
+      "surface_en": "shoulder-length chestnut inward-curled bob with a single pearl stud on the right ear",
+      "scope": ["S01", "S03", "S06", "S08", "S10"],
+      "reason": "左右不对称特征，正反打时最易翻面穿帮"
+    },
+    {
+      "id": "LOCK-ROOM",
+      "name": "冷白会议室与胡桃木长桌",
+      "surface": "落地窗",
+      "surface_en": "cold-white LED meeting room with a dark walnut long table and a right-side floor-to-ceiling window",
+      "scope": ["S01", "S02", "S06", "S07", "S08", "S10", "S12"],
+      "reason": "场景地理与光向固定，越轴检查的参照系"
+    }
+  ],
+  "scene_geometry": {
+    "axis": "长桌长边为轴线，苏晴在画左、林昭在画右",
+    "camera_working_side": "A 侧（落地窗一侧）",
+    "note": "全片正反打保持 A 侧工作侧；S07 为低机位仰拍但仍不越轴；S12 机位移至林昭右后侧，声明为『镜内穿轴』过渡并重建工作侧 B"
+  },
+  "shots": [
+    {
+      "id": "S01",
+      "purpose": "前 3 秒抛出代签指控，把冲突直接摆上桌",
+      "start": "苏晴右手把 A4 签字页平拍在胡桃木长桌上，食指压住签名，肩线绷直",
+      "action": "指尖压住纸面不动，纸角微微翘起；她抬起视线直逼对面",
+      "end": "纸静止、苏晴视线锁定林昭",
+      "screen_direction": "苏晴在画左，视线向右",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 6,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画，平涂色块、清晰描线、细网点，低饱和青灰。冷白 LED 会议室，右侧落地窗阴天漫射侧光，深色胡桃木长桌。过肩近景，机位在苏晴左肩后约一米、略俯 10 度，缓慢推近 6%，低动态不晃动。起点：苏晴（齐肩栗棕内扣发、右耳单只珍珠耳钉、米白西装、左手食指素圈银戒）右手把一张 A4 签字页平拍在长桌上，食指压住签名。唯一动作：指尖压住纸面不动，纸角被气流微微掀起，她抬起视线直逼对面。终点：纸静止、视线锁定对面。景深浅、背景虚化白墙与投影幕。画面内不出现任何文字、字幕、水印、logo；不改发型服装、不加多余手指、不出现第二张正脸张嘴、不越轴、不剧烈晃动。",
+      "references": [
+        {"slot": "REF-S01-FIRST", "order": 1, "path": "output/03_frames/S01.png", "name": "S01 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "人物站位", "光向"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-LIN-SHEET", "order": 2, "path": "output/02_characters/character_sheets/1_林昭.png", "name": "林昭定妆卡", "purpose": "身份", "controls": ["五官", "眼镜", "立领西装"], "must_not": ["表演", "机位"]},
+        {"slot": "REF-SU-SHEET", "order": 3, "path": "output/02_characters/character_sheets/2_苏晴.png", "name": "苏晴定妆卡", "purpose": "身份", "controls": ["发色", "耳钉", "米白西装"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S02",
+      "purpose": "给被指控者的克制反应，反打建立权力对峙",
+      "start": "林昭正面平机位特写，下颌收紧、嘴唇抿成线，镜片一道细高光",
+      "action": "他抬起眼睛直视镜头，喉结极轻地动一下，身体不动",
+      "end": "视线稳定落在画外左侧的苏晴身上",
+      "screen_direction": "林昭在画右，视线向左",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 5,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画。人物面部特写，正面平机位，缓慢推近 5% 至眼部，低动态。冷白顶光加右侧落地窗侧光，镜片上一道细高光，背景虚化成青灰。林昭：黑色短碎发、银色细框窄边眼镜、左眉尾一道浅疤、深灰立领三件套西装配银色回形针领针、左手方形钢带机械腕表。起点：下颌收紧、嘴唇抿成线。唯一动作：抬起眼睛直视镜头，喉结极轻地动一下，身体完全不晃。终点：视线稳定落在画外左侧。浅景深，皮肤与布料纹理以厚涂块面表达。画面内不出现文字、字幕、水印；不改五官、不换眼镜、不加第二张脸、不越轴、不大幅摇头。",
+      "references": [
+        {"slot": "REF-S02-FIRST", "order": 1, "path": "output/03_frames/S02.png", "name": "S02 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "五官", "光向"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-LIN-SHEET", "order": 2, "path": "output/02_characters/character_sheets/1_林昭.png", "name": "林昭定妆卡", "purpose": "身份", "controls": ["疤痕", "眼镜", "领针"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S03",
+      "purpose": "插入监控画面，用客观证据打断对峙",
+      "start": "俯拍 45 度手部大特写，苏晴横握平板，屏幕冷蓝自发光照亮指尖",
+      "action": "拇指在屏幕上向左划过一格时间轴，画面停住",
+      "end": "屏幕定格在空会议室的监控画面",
+      "screen_direction": "物件插入镜，无人物视线方向",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 0,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调漫画。俯拍 45 度手部与平板大特写，固定机位，微距。平板屏幕自发光作主光源，冷蓝光照亮指尖，环境压暗。苏晴：米白西装袖口、左手食指素圈银戒、齐肩栗棕内扣发尾掠过画面上缘、右耳单只小珍珠耳钉有细微反光。起点：横握平板，屏幕显示一间空会议室的监控画面。唯一动作：拇指在屏幕上向左划过一格时间轴，画面停住。终点：屏幕定格不动，玻璃边缘一道细反光。画面内不出现可读文字、数字、字幕、水印；不加多余手指、不改变屏幕内容结构、不晃动机身。",
+      "references": [
+        {"slot": "REF-S03-FIRST", "order": 1, "path": "output/03_frames/S03.png", "name": "S03 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "手部", "光源"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-SU-SHEET", "order": 2, "path": "output/02_characters/character_sheets/2_苏晴.png", "name": "苏晴定妆卡", "purpose": "身份", "controls": ["发色", "耳钉", "银戒"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S04",
+      "purpose": "林昭用时间差反将一军，第一次翻转",
+      "start": "桌侧 35 度近景，林昭上半身前倾凑近平板，平板冷光从下方补亮下颌",
+      "action": "他伸手把平板角度转向自己，眉心极轻地收拢",
+      "end": "平板角度稳定，林昭目光落在屏幕上",
+      "screen_direction": "林昭在画右，视线向左下",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 6,
+      "subtitle_window_s": [0.35, 6.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画。近景，机位在桌侧 35 度，缓慢推近 6%，低动态。平板冷光从下方补亮下颌，顶光退成轮廓光，青灰冷调。林昭：银色细框窄边眼镜、左眉尾浅疤、深灰立领三件套西装、银色回形针领针。起点：上半身前倾凑近平板。唯一动作：伸手把平板角度转向自己，眉心极轻地收拢。终点：平板角度稳定，目光落在屏幕上。背景会议室虚化。画面内不出现文字、数字、字幕、水印；不改五官服装、不加多余手指、不越轴、不剧烈晃动。",
+      "references": [
+        {"slot": "REF-S04-FIRST", "order": 1, "path": "output/03_frames/S04.png", "name": "S04 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "机位", "光向"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-LIN-SHEET", "order": 2, "path": "output/02_characters/character_sheets/1_林昭.png", "name": "林昭定妆卡", "purpose": "身份", "controls": ["眼镜", "疤痕", "立领"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S05",
+      "purpose": "压痕作为物证登场，把视线从人引向纸",
+      "start": "垂直俯拍微距，A4 签字页铺满画面，侧逆光扫出浅压痕",
+      "action": "林昭指腹从左向右缓慢抚过纸面，压痕阴影随之移动",
+      "end": "指腹停在纸右侧，压痕清晰可见",
+      "screen_direction": "物件插入镜，手自左向右",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 0,
+      "subtitle_window_s": [0.35, 4.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调漫画。垂直俯拍微距大特写，固定机位。一张 A4 白色签字页铺满画面，一束冷白侧逆光斜扫纸面显出凹凸的浅压痕，暖木色反光为辅，纸纤维与杯底淡咖啡环印清晰。深灰西装袖口与方形钢带机械腕表压在画面左缘。起点：一只男性的手指指腹落在纸面左侧。唯一动作：指腹从左向右缓慢抚过纸面，压痕的阴影随光向轻微移动。终点：指腹停在纸右侧，压痕清晰。微距景深浅、纹理锐利。画面内不出现可读文字、签名、数字、字幕、水印；不加多余手指、不让纸面变形、不晃动。",
+      "references": [
+        {"slot": "REF-S05-FIRST", "order": 1, "path": "output/03_frames/S05.png", "name": "S05 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "纸面纹理", "光向"], "must_not": ["台词", "后续动作"]}
+      ]
+    },
+    {
+      "id": "S06",
+      "purpose": "苏晴第一次动摇，情绪转折",
+      "start": "苏晴正面略侧 15 度特写，落地窗侧光从右打亮半边脸",
+      "action": "眼睫连眨两下，视线从林昭移向桌上的纸",
+      "end": "视线停在纸面，嘴唇微张未出声",
+      "screen_direction": "苏晴在画左，视线向右下",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 3,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画。人物特写，正面略侧 15 度，极缓横向摇移 3%，低动态。右侧落地窗侧光打亮半边脸，左半脸落柔和阴影，浅景深、青灰背景。苏晴：齐肩栗棕内扣发、右耳单只小珍珠耳钉、米白西装、裸色指甲、干练淡妆。起点：目光直视画外右侧。唯一动作：眼睫连眨两下，视线缓缓移向桌面。终点：视线停在纸面，嘴唇微张但未出声。画面内不出现文字、字幕、水印；不改发型、不让耳钉换边、不加第二张正脸、不越轴、不大幅转头。",
+      "references": [
+        {"slot": "REF-S06-FIRST", "order": 1, "path": "output/03_frames/S06.png", "name": "S06 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "五官", "光向"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-SU-SHEET", "order": 2, "path": "output/02_characters/character_sheets/2_苏晴.png", "name": "苏晴定妆卡", "purpose": "身份", "controls": ["发色", "耳钉", "妆容"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S07",
+      "purpose": "揭示压痕是描摹，物证升级",
+      "start": "低机位仰拍 10 度中近景，林昭双手捏住 A4 纸两角举向落地窗",
+      "action": "纸张缓慢转过一个角度，逆光透出底层重叠的描摹笔画",
+      "end": "纸面稳定，透光层次分明",
+      "screen_direction": "林昭在画右，逆光居中",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 0,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画。低机位仰拍 10 度中近景，固定机位、低动态。人物背后落地窗强逆光勾出轮廓，室内柔光补亮面部，暖窗光与青灰室内冷暖对比，背景过曝窗格与虚化城市天际线。林昭：黑色短碎发、银色细框眼镜、左眉尾浅疤、深灰立领三件套西装。起点：双手捏住一张 A4 纸的两角举向窗前。唯一动作：纸张缓慢转过一个角度，逆光透出底层重叠的描摹笔画，指节因用力微微发白。终点：纸面稳定，透光层次分明。画面内不出现可读文字、字幕、水印；不加多余手指、不让纸撕裂、不改变人物轮廓、不晃动。",
+      "references": [
+        {"slot": "REF-S07-FIRST", "order": 1, "path": "output/03_frames/S07.png", "name": "S07 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "逆光", "人物站位"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-LIN-SHEET", "order": 2, "path": "output/02_characters/character_sheets/1_林昭.png", "name": "林昭定妆卡", "purpose": "身份", "controls": ["眼镜", "疤痕", "立领"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S08",
+      "purpose": "双人同框收束，把问题抛给对手",
+      "start": "双人中景正面平机位，两人隔胡桃木长桌一左一右对称入画",
+      "action": "苏晴极轻地侧头，林昭始终不动",
+      "end": "两人均静止，逆光勾出两道轮廓",
+      "screen_direction": "苏晴在画左看右，林昭在画右看左",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 0,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画。双人中景，正面平机位，固定、低动态。两人隔着深色胡桃木长桌一左一右对称入画，背后落地窗逆光把两人轮廓镀亮，室内冷白补光，青灰色调。左侧苏晴：齐肩栗棕内扣发、右耳单只珍珠耳钉、米白西装；右侧林昭：黑短发、银色细框眼镜、左眉尾浅疤、深灰立领三件套西装、回形针领针。起点：两人对视静止。唯一动作：苏晴极轻地侧头，林昭始终不动，只有窗帘被 airflow 带起一丝。终点：两人静止，逆光轮廓清晰。画面内不出现文字、字幕、水印；不换脸、不换站位、不让两人同时张嘴、不加第三人、不越轴、不晃动。",
+      "references": [
+        {"slot": "REF-S08-FIRST", "order": 1, "path": "output/03_frames/S08.png", "name": "S08 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "双人站位", "轴线"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-LIN-SHEET", "order": 2, "path": "output/02_characters/character_sheets/1_林昭.png", "name": "林昭定妆卡", "purpose": "身份", "controls": ["五官", "服装"], "must_not": ["表演", "机位"]},
+        {"slot": "REF-SU-SHEET", "order": 3, "path": "output/02_characters/character_sheets/2_苏晴.png", "name": "苏晴定妆卡", "purpose": "身份", "controls": ["发色", "耳钉"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S09",
+      "purpose": "章号异常，把嫌疑指向第三人",
+      "start": "俯拍 40 度物件大特写，签字页背面朝上，手机屏幕冷光加顶部射灯",
+      "action": "林昭拇指把签字页翻到背面，一枚圆形钢印章号露出",
+      "end": "纸面停稳，章号居中清晰",
+      "screen_direction": "物件插入镜，手自上而下翻页",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 7,
+      "subtitle_window_s": [0.35, 6.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调漫画。物件大特写，俯拍 40 度，缓慢推近 7%，低动态。手机屏幕冷光加顶部射灯，背景桌面压成暗青灰，纸纤维与印章凹凸可见。深灰西装袖口与方形钢带机械腕表入画。起点：签字页正面朝上铺在桌面。唯一动作：林昭拇指把签字页翻到背面，一枚圆形钢印章号随之露出。终点：纸面停稳，章号居中清晰。画面内不出现可读文字、数字、签名、字幕、水印；不加多余手指、不让印章变形、不晃动。",
+      "references": [
+        {"slot": "REF-S09-FIRST", "order": 1, "path": "output/03_frames/S09.png", "name": "S09 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "纸面", "光向"], "must_not": ["台词", "后续动作"]}
+      ]
+    },
+    {
+      "id": "S10",
+      "purpose": "苏晴意识到自己被利用，第二次翻转",
+      "start": "苏晴正面略侧近景，冷白顶光转柔，半边脸被窗光勾亮",
+      "action": "握文件的左手骤然收拢，指节发白，呼吸停一拍",
+      "end": "纸被捏出一道折痕，苏晴垂下眼",
+      "screen_direction": "苏晴在画左，视线向下",
+      "axis_side": "A",
+      "motion_intensity": "low",
+      "camera_move_pct": 5,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画。人物近景，正面略侧，缓慢推近 5%，低动态。冷白顶光转柔，右侧落地窗侧光勾亮半边脸，青灰背景虚化。苏晴：齐肩栗棕内扣发、右耳单只珍珠耳钉、米白收腰西装、左手食指素圈银戒、裸色指甲。起点：双手握着一份文件，目光平视。唯一动作：握文件的左手骤然收拢、指节发白，呼吸停一拍。终点：纸被捏出一道折痕，她垂下眼。画面内不出现文字、字幕、水印；不改发型、不让耳钉换边、不加多余手指、不越轴、不剧烈晃动。",
+      "references": [
+        {"slot": "REF-S10-FIRST", "order": 1, "path": "output/03_frames/S10.png", "name": "S10 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "五官", "光向"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-SU-SHEET", "order": 2, "path": "output/02_characters/character_sheets/2_苏晴.png", "name": "苏晴定妆卡", "purpose": "身份", "controls": ["发色", "耳钉", "银戒"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S11",
+      "purpose": "亮工牌身份反转，本集最高潮",
+      "start": "手部与证件特写，平机位，林昭从深灰西装内袋抽出一枚工作证",
+      "action": "两指翻转到正面，急推镜头压近，圆形钢印与磨痕入画",
+      "end": "工牌正面定格，银色回形针领针在画面上缘入镜",
+      "screen_direction": "林昭在画右，手自下而上",
+      "axis_side": "A",
+      "motion_intensity": "medium",
+      "camera_move_pct": 18,
+      "subtitle_window_s": [0.35, 5.60],
+      "video_prompt": "9:16 竖屏国产悬疑冷调漫画。手部与证件特写，平机位，快速推近 18%（本集唯一中动态镜头，仍不晃动变形）。冷白顶光在塑料卡面打出一道竖向高光，背景会议室虚化成青灰。林昭：深灰立领三件套西装、银色回形针领针、左手方形钢带机械腕表。起点：从内袋抽出一枚工作证，两指捏住卡角。唯一动作：两指翻转到正面，镜头急推压近，卡面圆形钢印与磨痕入画。终点：工牌正面定格，挂绳织物与钢印凹凸清晰。画面内不出现可读文字、数字、字幕、水印；不加多余手指、不让卡面扭曲、不改变腕表位置、不晃动。",
+      "references": [
+        {"slot": "REF-S11-FIRST", "order": 1, "path": "output/03_frames/S11.png", "name": "S11 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "手部", "光向"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-LIN-SHEET", "order": 2, "path": "output/02_characters/character_sheets/1_林昭.png", "name": "林昭定妆卡", "purpose": "身份", "controls": ["领针", "腕表", "西装"], "must_not": ["表演", "机位"]}
+      ]
+    },
+    {
+      "id": "S12",
+      "purpose": "留悬念引导下一集，机位穿轴重建空间",
+      "start": "中景转半身，机位在林昭右后侧（声明镜内穿轴过渡，工作侧重建为 B），冷白顶光渐暗",
+      "action": "他把一叠文件轻轻放在长桌上，转身向走廊门走去",
+      "end": "门缝透进一道细长暖光横过地面，人物背影停在门边",
+      "screen_direction": "林昭在画右背向镜头，走向画面深处",
+      "axis_side": "B",
+      "motion_intensity": "low",
+      "camera_move_pct": 8,
+      "subtitle_window_s": [0.35, 5.60],
+      "axis_transition": "镜内穿轴；以 S11 证件特写作中性过渡镜，S12 用全景重建新工作侧 B",
+      "video_prompt": "9:16 竖屏国产悬疑冷调半写实厚涂漫画。中景转半身，机位在林昭右后侧，缓慢拉远 8%，低动态。冷白顶光渐暗、只剩落地窗余光，走廊门缝透进一道细长暖光横过地面，青灰室内与一线暖光对比。林昭：黑色短碎发、深灰立领三件套西装、银色回形针领针。起点：手扶长桌边缘，背对镜头略侧。唯一动作：把一叠文件轻轻放在长桌上，转身向走廊门走去。终点：背影停在门边，暖光横过地面。画面内不出现文字、字幕、水印；不改服装、不加第二人、不让人脸突然转向镜头、不剧烈晃动。",
+      "references": [
+        {"slot": "REF-S12-FIRST", "order": 1, "path": "output/03_frames/S12.png", "name": "S12 冻结起始帧", "purpose": "起始帧", "controls": ["构图", "机位", "光向"], "must_not": ["台词", "后续动作"]},
+        {"slot": "REF-LIN-SHEET", "order": 2, "path": "output/02_characters/character_sheets/1_林昭.png", "name": "林昭定妆卡", "purpose": "身份", "controls": ["发型", "立领", "领针"], "must_not": ["表演", "机位"]}
+      ]
+    }
+  ]
+}

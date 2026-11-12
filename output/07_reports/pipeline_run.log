@@ -1,0 +1,20 @@
+=== 时象助手 · 代签 EP01 ===
+ffmpeg: /Users/xujiahua/.local/lib/python3.13/site-packages/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v9.0
+
+[skip ] 00_previs 导演台预演与质量门（沿用上次记录）
+[skip ] 01_script 剧本与合规预审（沿用上次记录）
+[skip ] 02_characters 角色资产与一致性锁定（沿用上次记录）
+[skip ] 03_frames 真人帧 → 漫画化转绘（沿用上次记录）
+[run  ] 04_clips 逐镜生产（真视频/视差） ...
+        pass  12/12 镜头；真动态视频 1 镜（逐帧本地转绘、去模型水印、对齐全片 LUT） / 本地多层视差 11 镜；逐句字幕时段 + 插入镜闪白 + 片头 AI 标识 + 末镜淡出
+[run  ] 05_audio 本地配音 / BGM / 音效 ...
+        pass  12 段离线配音 + 音效；全片人声轨 73.0s，最大音画漂移 0.0s；BGM 73.0s 本地合成
+[run  ] 06_final 字幕 / 合成 / 导出 ...
+        pass  成片 EP01.mp4：1080×1920 / h264 / 73.0s / AAC 44100Hz；封面 1200x1600
+[run  ] 07_reports 逐镜质检 + 逐条验收 ...
+        pass  32 条规则：通过 16 / 需人工核验 16 / 不通过 0；逐镜质检 12 镜（真视频 1 镜）；综合 WARN 75分
+
+=== 完成 ===
+成片：output/06_final/EP01.mp4
+验收：WARN 75/100  通过 16 / 需人工核验 16 / 不通过 0
+查验台：console/index.html（双击打开；或 python3 -m http.server 8000 后访问 /console/）
